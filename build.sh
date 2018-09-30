@@ -1,6 +1,5 @@
 mkdir -p public/en public/fr
-echo "[French](fr/Aterlier01.html)" > public/index.md
-echo "[English](en/Workshop01.html)" >> public/index.md
+cp README.md public
 
 wget https://github.com/QCBSRworkshops/templateWorkshops/archive/master.zip
 unzip master
