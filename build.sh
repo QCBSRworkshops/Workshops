@@ -4,8 +4,8 @@ cp README.md public
 wget https://github.com/QCBSRworkshops/templateWorkshops/archive/master.zip
 unzip master
 
-cp -r -t public/fr Atelier01/Atelier01.Rmd Atelier01/images
-cp -r -t public/en Workshop01/Workshop01.Rmd Workshop01/images
+cp -r -t public/fr Atelier01/Atelier01.Rmd images
+cp -r -t public/en Workshop01/Workshop01.Rmd images
 
 for i in "en" "fr"
 do
