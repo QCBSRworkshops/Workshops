@@ -13,4 +13,5 @@ Imports:
   htmltools,
   rmarkdown,
   tidyverse,
-  widgetframe
+  widgetframe,
+  xaringan
