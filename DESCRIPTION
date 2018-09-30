@@ -1,0 +1,16 @@
+Package: placeholder
+Type: Website
+Title: Workshop 01.
+Version: 0.1.0
+Authors@R: c(
+  person("Team", "QCBS", role = c("aut", "cre"), email = "kevin.cazelles@gmail.com")
+  )
+Imports:
+  devtools,
+  DiagrammeR,
+  kableExtra,
+  latex2exp,
+  htmltools,
+  rmarkdown,
+  tidyverse,
+  widgetframe
