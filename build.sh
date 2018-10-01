@@ -1,19 +1,24 @@
-mkdir -p public/en public/fr
+mkdir public
 cp README.md public
 
+# get template
 wget https://github.com/QCBSRworkshops/templateWorkshops/archive/master.zip
 unzip master
 
-cp -r -t public/fr Atelier01/Atelier01.Rmd images
-cp -r -t public/en Workshop01/Workshop01.Rmd images
-
-for i in "en" "fr"
+for i in $(seq 1)
 do
-  cp -r -t public/$i templateWorkshops-master/assets templateWorkshops-master/qcbs*
+  num=$(printf "%02d" $i)
+  for j in "en" "fr"
+  do
+    fol=workshop$num
+    fil=$fol-$j
+    mkdir -p public/$fol/$j
+    echo $fil
+    echo $fol
+    cp -r -t public/$fol/$j templateWorkshops-master/assets templateWorkshops-master/qcbs*
+    cp -r -t public/$fol/$j $fol/$fol-$j/$fol-$j.Rmd $fol/$fol-$j/images
+    cd public/$fol/$j && Rscript -e "rmarkdown::render('$fol-$j.Rmd')" && cd ../../..
+  done
 done
 
 rm -rf master.zip templateWorkshops-master
-
-
-cd public/fr && Rscript -e "rmarkdown::render('Atelier01.Rmd')" && cd ../..
-cd public/en && Rscript -e "rmarkdown::render('Workshop01.Rmd')" && cd ../..

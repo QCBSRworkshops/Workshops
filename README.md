@@ -5,6 +5,6 @@
 
 ### Workshop - Introduction to R
 
-#### [French](fr/Atelier01.html)
+#### [French](workshop01/fr/workshop01-fr.html)
 
-#### [English](en/Workshop01.html)
+#### [English](workshop01/en/workshop01-en.html)

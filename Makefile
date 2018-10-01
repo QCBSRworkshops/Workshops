@@ -7,4 +7,4 @@ template:
 		rm -rf master.zip templateWorkshops-master
 
 clean:
-	rm -rf public
+	rm -rf public templateWorkshops-master master.zip*
