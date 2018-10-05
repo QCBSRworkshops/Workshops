@@ -5,19 +5,25 @@ cp README.md public
 wget https://github.com/QCBSRworkshops/templateWorkshops/archive/master.zip
 unzip master
 
-for i in $(seq 1)
+
+for i in $(seq 2)
 do
   num=$(printf "%02d" $i)
-  for j in "en" "fr"
+  # files in folder
+  fol=Workshop$num
+  dirs=($fol/*/)
+  for dir in "${dirs[@]}"
   do
-    fol=workshop$num
-    fil=$fol-$j
-    mkdir -p public/$fol/$j
+    fil=${dir%*/}
+    fil=${fil##*/}
+    lang=${fil##*-}
+    mkdir -p public/$fol/$lang
     echo $fil
     echo $fol
-    cp -r -t public/$fol/$j templateWorkshops-master/assets templateWorkshops-master/qcbs*
-    cp -r -t public/$fol/$j $fol/$fol-$j/$fol-$j.Rmd $fol/$fol-$j/images
-    cd public/$fol/$j && Rscript -e "rmarkdown::render('$fol-$j.Rmd')" && cd ../../..
+    cp -r -t public/$fol/$lang templateWorkshops-master/assets templateWorkshops-master/qcbs*
+    cp -r -t public/$fol/$lang $fol/$fil/$fil.Rmd $fol/$fil/images
+    #cp: illegal option -- t...?
+    cd public/$fol/$lang && Rscript -e "rmarkdown::render('$fil.Rmd')" && cd ../../..
   done
 done
 
