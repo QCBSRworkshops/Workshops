@@ -1,3 +1,5 @@
+#!/bin/bash
+
 mkdir public
 cp README.md public
 
@@ -10,20 +12,16 @@ for i in $(seq 2)
 do
   num=$(printf "%02d" $i)
   # files in folder
-  fol=Workshop$num
-  dirs=($fol/*/)
-  for dir in "${dirs[@]}"
+  wks=workshop$num
+  for dir in $wks/*
   do
-    fil=${dir%*/}
-    fil=${fil##*/}
-    lang=${fil##*-}
-    mkdir -p public/$fol/$lang
-    echo $fil
-    echo $fol
-    cp -r -t public/$fol/$lang templateWorkshops-master/assets templateWorkshops-master/qcbs*
-    cp -r -t public/$fol/$lang $fol/$fil/$fil.Rmd $fol/$fil/images
-    #cp: illegal option -- t...?
-    cd public/$fol/$lang && Rscript -e "rmarkdown::render('$fil.Rmd')" && cd ../../..
+    lang=${dir##*-}
+    mkdir -p public/$dir
+    cp -r templateWorkshops-master/assets templateWorkshops-master/qcbs* public/$dir
+    cp -r $dir/*.Rmd $dir/images $dir/*.csv public/$dir
+    $dir/*.Rmd
+    # #cp: illegal option -- t...?
+    cd public/$dir && Rscript -e "rmarkdown::render('$wks-$lang.Rmd')" && cd ../../..
   done
 done
 
