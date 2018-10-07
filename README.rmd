@@ -1,0 +1,20 @@
+---
+title: "Workshops R QCBS"
+output:
+    md_document
+---
+
+[![Build Status](https://travis-ci.org/QCBSRworkshops/Workshops.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/Workshops)
+
+
+```{r workshops, echo = FALSE, results = "asis"}
+linkmd <-function(x, y=x, after = "\n\n") paste0("[", x, "]", "(", y, ")", after)
+ls_wks <- yaml::yaml.load_file("workshops.yaml")
+for (i in seq_along(ls_wks)) {
+  if (!is.null(ls_wks[[i]]$name)) {
+    cat("### ", ls_wks[[i]]$name, "\n\n")
+    if (!is.null(ls_wks[[i]]$link_en)) cat("#### ", linkmd("English", ls_wks[[i]]$link_en))
+    if (!is.null(ls_wks[[i]]$link_fr)) cat("#### ", linkmd("French", ls_wks[[i]]$link_fr))
+  }
+}
+```
