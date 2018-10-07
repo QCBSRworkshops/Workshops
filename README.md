@@ -1,5 +1,7 @@
 [![Build
 Status](https://travis-ci.org/QCBSRworkshops/Workshops.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/Workshops)
+[![Creative Common
+by-nc-sa](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.eu.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ### Workshop 01 - Introduction
 
