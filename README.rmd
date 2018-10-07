@@ -5,8 +5,7 @@ output:
 ---
 
 [![Build Status](https://travis-ci.org/QCBSRworkshops/Workshops.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/Workshops)
-[![Creative Common by-nc-sa](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.eu.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ```{r workshops, echo = FALSE, results = "asis"}
 linkmd <- function(x, y=x, baseurl = "https://qcbsrworkshops.github.io/Workshops/",
@@ -24,3 +23,8 @@ for (i in seq_along(ls_wks)) {
   }
 }
 ```
+
+
+
+
+[![Creative Common by-nc-sa](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.eu.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
