@@ -1,3 +1,6 @@
+copy_css:
+	sh copy.sh
+
 pres:
 	sh build.sh
 
