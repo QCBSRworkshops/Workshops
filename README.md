@@ -5,7 +5,7 @@ Status](https://travis-ci.org/QCBSRworkshops/Workshops.svg?branch=dev)](https://
 
 To contribute to the QCBS R workshops, please refer to the instructions on the [Wiki page](https://github.com/QCBSRworkshops/Workshops/wiki)
 
-Pour contribuer aux ateliers R  du CSBQ, veuillez vous référez aux instruction de la [page Wiki](https://github.com/QCBSRworkshops/Workshops/wiki)
+Pour contribuer aux ateliers R  du CSBQ, veuillez vous référez aux instructions de la [page Wiki](https://github.com/QCBSRworkshops/Workshops/wiki)
 
 ### Workshop 01 - Introduction
 
