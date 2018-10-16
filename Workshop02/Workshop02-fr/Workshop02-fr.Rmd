@@ -1,7 +1,7 @@
 ---
 title: "Atelier 2: Charger et manipuler des données"
 subtitle: "Série d'ateliers R du CSBQ "
-author: "Centre des sciences de la biodiversité du Québec"
+author: "Centre de la science de la biodiversité du Québec"
 output:
   xaringan::moon_reader:
     includes:
@@ -574,7 +574,7 @@ La fonction `apply()` est utilisée pour appliquer une fonction à plusieurs co
 Utilisez `apply ()` pour calculer la moyenne des deux dernières colonnes du data frame (c'est-à-dire les colonnes contenant des données continues)
 
 ```{r}
-apply(CO2[,4:5], MARGIN = 2, FUN = mean) 
+apply(CO2[,4:5], MARGIN = 2, FUN = mean)
 ```
 
 * `MARGIN = 1` ![:faic](arrow-right) si la fonction est appliquée aux lignes
@@ -596,10 +596,10 @@ head(CO2) # cela fonctionne! :)
 ---
 ## Exporter des données
 
-Pour enregistrer dans le répertoire de travail des données que vous avez créées ou modifiées dans R, utilisez la fonction `write.csv()`. 
+Pour enregistrer dans le répertoire de travail des données que vous avez créées ou modifiées dans R, utilisez la fonction `write.csv()`.
 
 ```{r, eval = TRUE}
-write.csv(CO2, file = "co2_new.csv") 
+write.csv(CO2, file = "co2_new.csv")
 ```
 
 `CO2` ![:faic](arrow-right) Nom de l'objet dans R
@@ -612,7 +612,7 @@ write.csv(CO2, file = "co2_new.csv")
 
 #### Utilisez vos données
 
-* Essayez de charger, explorer, et enregistrer vos propres données dans R*. 
+* Essayez de charger, explorer, et enregistrer vos propres données dans R*.
   * Est-ce que le chargement fonctionne?
 * Si ce n'est pas le cas, essayez de corriger vos données dans Excel.
 * Enregistrez vos données corrigées et ré-essayez de les ouvrir dans R.
@@ -637,7 +637,7 @@ Pratiquons-nous à réparer certains problèmes communs.
 Importez un jeu de données "endommagé" dans R et trouvez les problèmes.
 
 ```{r, eval = TRUE}
-CO2 <- read.csv("CO2_broken.csv") 
+CO2 <- read.csv("CO2_broken.csv")
 ```
 
 ---
@@ -693,8 +693,8 @@ head(CO2)
 
 .alert[ERREUR 1] - Solution 1
 
-* Importez les données de nouveau, en spécifiant comment chaque valeur est séparée. 
-*L'argument `sep` indique à R quel type de caractère sépare les valeurs sur chaque ligne. 
+* Importez les données de nouveau, en spécifiant comment chaque valeur est séparée.
+*L'argument `sep` indique à R quel type de caractère sépare les valeurs sur chaque ligne.
 * Ici, une tabulation sépare les valeurs au lieu d'une virgule.
 
 ```{r, eval = TRUE}
@@ -709,7 +709,7 @@ CO2 <- read.csv("co2_broken.csv", sep = "")
 Les données ne commencent pas avant la 3ème ligne. Les entêtes de colonnes sont remplacés par des notes.
 
 ```{r, eval = TRUE}
-head(CO2) 
+head(CO2)
 ```
 
 ---
@@ -720,7 +720,7 @@ Pour régler ce problème, vous devez indiquer à R de sauter les deux première
 
 ```{r, eval = TRUE}
 CO2 <- read.csv("co2_broken.csv", sep = "", skip = 2)
-head(CO2) 
+head(CO2)
 ```
 
 ---
@@ -732,7 +732,7 @@ Les variables `conc` et `uptake` sont considérées commes des facteurs au lieu 
 
 ```{r, eval = TRUE}
 str(CO2)
-unique(CO2$conc) 
+unique(CO2$conc)
 unique(CO2$uptake)
 ```
 
@@ -766,9 +766,9 @@ str(CO2)
 En réalité, il y a seulement 2 traitements (chilled & non chilled), mais des erreurs d'orthographe créent 2 autres niveaux de traitement.
 
 ```{r, eval = TRUE}
-str(CO2) 
+str(CO2)
 levels(CO2$Treatment)
-unique(CO2$Treatment) 
+unique(CO2$Treatment)
 ```
 
 ---
@@ -793,14 +793,14 @@ levels(CO2$Treatment)
 ---
 class: inverse, center, middle
 
-# Manipulation de données avec `tidyr`, `dplyr`, `magrittr` 
+# Manipulation de données avec `tidyr`, `dplyr`, `magrittr`
 
 ---
 ## `tidyr` pour réorganiser ses données
 
 
 .center[
-![:scale 50%](images/tidyr_logo.png) 
+![:scale 50%](images/tidyr_logo.png)
 ]
 
 ---
@@ -813,7 +813,7 @@ Un data frame en format large contient une colonne pour chaque variable ou facte
 
 ```{r, echo=FALSE, eval = T}
 large <- data.frame(Species = c("Chene", "Orme", "Frene"),
-                   DHP = c(12, 20, 13), 
+                   DHP = c(12, 20, 13),
                    Haut = c(56, 85, 55))
 large
 ```
@@ -871,7 +871,7 @@ library(tidyr)
 
 ```{r, echo = T}
 large <- data.frame(Species = c("Chene", "Orme", "Frene"),
-                   DHP = c(12, 20, 13), 
+                   DHP = c(12, 20, 13),
                    Haut = c(56, 85, 55))
 large
 ```
@@ -942,7 +942,7 @@ degat.long <- gather(degat, taxa, count, -id, -trt)
 head(degat.long)
 ```
 
-.alert[Petit rappel] ici, nous utilisons `-id` et `-trt`, qui est interprété par la fonction comme étant TOUTES les colonnes sauf `id` et `trt`. 
+.alert[Petit rappel] ici, nous utilisons `-id` et `-trt`, qui est interprété par la fonction comme étant TOUTES les colonnes sauf `id` et `trt`.
 
 ---
 ## Utiliser `separate()`
@@ -980,7 +980,7 @@ Séparer et regrouper des colonnes à l'aide de `separate()` et de son inverse `
 
 #### Utiliser `tidyr` pour convertir le format long en format large
 
-1. Réorganisez le jeu de données `airquality` en format long (en rassemblant toutes les colonnes sauf "Month" et "Day"). 
+1. Réorganisez le jeu de données `airquality` en format long (en rassemblant toutes les colonnes sauf "Month" et "Day").
 
 2. Ensuite, convertissez-le en format large pour retrouver le format original de `airquality`
 
@@ -993,7 +993,7 @@ data(airquality)
 ---
 ## Solution
 
-1. Réorganisez le jeu de données `airquality` en format long (en rassemblant toutes les colonnes sauf "Month" et "Day"). 
+1. Réorganisez le jeu de données `airquality` en format long (en rassemblant toutes les colonnes sauf "Month" et "Day").
 ```{r}
 air.long <- gather(airquality, variable, value, -Month, -Day)
 head(air.long)
@@ -1080,7 +1080,7 @@ select(données, start_with(x.)) # sélectionne les colonnes ayant un nom qui co
 ---
 ## `select()` - Sélection de colonnes
 
-Par exemple, si on s'intéresse à la variation de la variable Ozone avec le temps. 
+Par exemple, si on s'intéresse à la variation de la variable Ozone avec le temps.
 
 ```{r}
 ozone <- select(airquality, Ozone, Month, Day)
@@ -1105,7 +1105,7 @@ Pour extraire un sous-ensemble de rangées selon une condition, on peut utiliser
 ---
 ## `filter()` - sélection de lignes
 
-Par exemple, si on s'intéresse aux périodes de canicules du mois d'août dans le jeu de données `airquality` 
+Par exemple, si on s'intéresse aux périodes de canicules du mois d'août dans le jeu de données `airquality`
 
 ```{r}
 aout <- filter(airquality, Month == 8, Temp >= 90)
@@ -1137,7 +1137,7 @@ head(air_degat)
 ---
 ## `arrange()` - Ordonner des lignes
 
-2. Maintenant, on réarrange le data frame en ordre chronologique, soit en ordre croissant selon `Month` et ensuite selon `Day` 
+2. Maintenant, on réarrange le data frame en ordre chronologique, soit en ordre croissant selon `Month` et ensuite selon `Day`
 
 ```{r}
 air_chron <- arrange(air_degat, Month, Day)
@@ -1190,7 +1190,7 @@ library(magrittr)
 ---
 ## `magrittr`
 
-Supposons qu'on veut créer un sous-ensemble de airquality pour le mois de juin, et ensuite convertir la variable de la température en degrés Celsius. On peut créer ce data frame en combinant 2 *verbes* de dplyr 
+Supposons qu'on veut créer un sous-ensemble de airquality pour le mois de juin, et ensuite convertir la variable de la température en degrés Celsius. On peut créer ce data frame en combinant 2 *verbes* de dplyr
 
 ```{r}
 juin_C <- mutate(filter(airquality, Month == 6),
@@ -1218,7 +1218,7 @@ Avantages :
 ---
 ## `dplyr::group_by` et `dplyr::summarise`
 
-Les verbes `dplyr` que nous avons appris dans cet atelier deviennent particulièrement puissants quand ils sont reliés par le "pipe" (%>%). 
+Les verbes `dplyr` que nous avons appris dans cet atelier deviennent particulièrement puissants quand ils sont reliés par le "pipe" (%>%).
 
 Les fonctions `dplyr` suivantes nous permettent de séparer nos jeu de données en groupes distincts sur lesquels on peut exécuter des opérations individuelles, comme des fonctions d'aggrégation et de sommaire:
 
@@ -1259,7 +1259,7 @@ mois_moy
 ---
 ## DÉFI - `dplyr` et `magrittr` ![:cube]()
 
-En utilisant le jeu de données `ChickWeight`, créez un tableau sommaire dans lequel on retrouve la différence de masse entre le maximum et le minimum de la masse enregistré pour chaque poussin dans l'étude. 
+En utilisant le jeu de données `ChickWeight`, créez un tableau sommaire dans lequel on retrouve la différence de masse entre le maximum et le minimum de la masse enregistré pour chaque poussin dans l'étude.
 
 Utilisez les verbes dplyr et le "pipe" `%>%`.
 
