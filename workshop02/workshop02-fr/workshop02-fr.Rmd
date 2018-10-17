@@ -1318,4 +1318,4 @@ class: inverse, center, bottom
 
 # Merci pour votre participation! :)
 
-![:scale 50%](images/qcbs_logo.png)
+![:scale 50%](images/QCBS_logo.png)
