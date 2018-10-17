@@ -7,6 +7,10 @@ output:
 [![Build Status](https://travis-ci.org/QCBSRworkshops/Workshops.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/Workshops)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
+To contribute to the QCBS R workshops, please refer to the instructions on the [Wiki page](https://github.com/QCBSRworkshops/Workshops/wiki).
+
+Pour contribuer aux ateliers R du CSBQ, veuillez vous référez aux instructions de la [page Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
+
 ```{r workshops, echo = FALSE, results = "asis"}
 linkmd <- function(x, y=x, baseurl = "https://qcbsrworkshops.github.io/Workshops/",
   after = "\n\n") {
@@ -24,6 +28,8 @@ for (i in seq_along(ls_wks)) {
 }
 ```
 
+
+<br><br>
 
 
 

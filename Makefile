@@ -13,4 +13,4 @@ clean:
 	rm -rf public templateWorkshops-master master.zip*
 
 readme:
-	Rscript -e "rmarkdown::render('README.rmd')"
+	Rscript -e "rmarkdown::render('README.Rmd')"
