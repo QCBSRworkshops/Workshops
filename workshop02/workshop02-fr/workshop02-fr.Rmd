@@ -46,7 +46,7 @@ library(magrittr)
 4. Manipuler des jeux de données avec tidyr, dplyr, maggritr
 
 ---
-## Les projets RStudio  
+## Les projets RStudio
 
 * Qu'est-ce qu'un projet RStudio ?
   - Les projets RStudio permettent l'organisation de son travail et l'accès facile à tous les fichiers requis pour une analyse.
@@ -251,7 +251,7 @@ Cela vous permet de passer rapidement d'une section à l'autre et de masquer des
 ---
 ## Nettoyage
 
-C'est une bonne habitude de maintenir son espace de travail propre en effaçant la mémoire de R à l'aide de `rm(list=ls())`.  
+C'est une bonne habitude de maintenir son espace de travail propre en effaçant la mémoire de R à l'aide de `rm(list=ls())`.
 
 ```{r, eval = FALSE}
 rm(list = ls()) # Efface ce qui se trouve dans l'espace de travail
@@ -281,7 +281,7 @@ A
 * R est sensible à la casse, i.e. `A` est différent de `a`.
 
 ```{r, eval = TRUE, error = TRUE}
-a <- 10  
+a <- 10
 A <- 5
 a
 A
@@ -354,7 +354,7 @@ CO2 <- read.csv(file.choose())
 
 Rappelez-vous que vous pouvez obtenir de l'aide pour une fonction avec `?`
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 ?read.csv
 ```
 
@@ -489,7 +489,7 @@ On peut aussi créer des nouvelles variables à partir de chiffres et d'opérati
 
 ```{r, eval = T}
 # Standardizer la variable "absorption" en valeurs relatives
-CO2copy$absorptionRel <- CO2copy$absorption/max(CO2copy$absorption)  
+CO2copy$absorptionRel <- CO2copy$absorption/max(CO2copy$absorption)
 
 # Observer les résultats
 head(CO2copy$absorptionRel)
@@ -617,7 +617,7 @@ write.csv(CO2, file = "co2_new.csv")
 * Si ce n'est pas le cas, essayez de corriger vos données dans Excel.
 * Enregistrez vos données corrigées et ré-essayez de les ouvrir dans R.
 
-.comment[*Si vous n'avez pas de données, travaillez avec vos voisins]
+.comment[* Si vous n'avez pas de données, travaillez avec vos voisins]
 
 ---
 class: inverse, center, middle
@@ -637,7 +637,7 @@ Pratiquons-nous à réparer certains problèmes communs.
 Importez un jeu de données "endommagé" dans R et trouvez les problèmes.
 
 ```{r, eval = TRUE}
-CO2 <- read.csv("CO2_broken.csv")
+CO2 <- read.csv("co2_broken.csv")
 ```
 
 ---
@@ -694,7 +694,7 @@ head(CO2)
 .alert[ERREUR 1] - Solution 1
 
 * Importez les données de nouveau, en spécifiant comment chaque valeur est séparée.
-*L'argument `sep` indique à R quel type de caractère sépare les valeurs sur chaque ligne.
+* L'argument `sep` indique à R quel type de caractère sépare les valeurs sur chaque ligne.
 * Ici, une tabulation sépare les valeurs au lieu d'une virgule.
 
 ```{r, eval = TRUE}
@@ -752,7 +752,7 @@ unique(CO2$uptake)
 Indiquez à R que tous les éléments NA, "na" et "cannot_read_notes" doivent être considérés comme des NA. Ensuite, comme toutes les autres valeurs de ces colonnes sont des nombres, `conc` et` uptake` seront chargés sous forme numérique / entier.
 
 ```{r, eval = TRUE}
-CO2 <- read.csv("CO2_broken.csv", sep = "", skip = 2,
+CO2 <- read.csv("co2_broken.csv", sep = "", skip = 2,
                 na.strings = c("NA", "na", "cannot_read_notes"))
 str(CO2)
 ```
@@ -860,9 +860,9 @@ library(tidyr)
 
 `gather(data, key, value, ...)`
 
-  - `data` ![:faic](arrow-right) le jeu de données (e.g. 'large')   
-  - `key` ![:faic](arrow-right) le nom de la nouvelle colonne spécifiant la variable mesurée (e.g. `dimension`)  
-  - `value` ![:faic](arrow-right) le nom de la nouvelle colonne spécifiant la mesure associée (e.g. `cm`)   
+  - `data` ![:faic](arrow-right) le jeu de données (e.g. 'large')
+  - `key` ![:faic](arrow-right) le nom de la nouvelle colonne spécifiant la variable mesurée (e.g. `dimension`)
+  - `value` ![:faic](arrow-right) le nom de la nouvelle colonne spécifiant la mesure associée (e.g. `cm`)
   - `...` ![:faic](arrow-right) les colonnes qu'on veut empiler dans le jeu de données (e.g. `DHP`, `Haut`)
 
 
@@ -887,8 +887,8 @@ long
 
 `spread(data, key, value)`
 
-  - `data` ![:faic](arrow-right) le jeu de données (e.g. `long`)   
-  - `key` ![:faic](arrow-right) nom de la colonne contenant les noms des variables (e.g. `dimension`)  
+  - `data` ![:faic](arrow-right) le jeu de données (e.g. `long`)
+  - `key` ![:faic](arrow-right) nom de la colonne contenant les noms des variables (e.g. `dimension`)
   - `value` ![:faic](arrow-right) nom de la colonne contenant les mesures associées aux variables (e.g. `cm`)
 
 
@@ -911,7 +911,7 @@ large2
 
 `separate(data, col, into, sep)`
 
-  - `data` ![:faic](arrow-right) Un data frame (e.g. `long`)   
+  - `data` ![:faic](arrow-right) Un data frame (e.g. `long`)
   - `col` ![:faic](arrow-right) Nom de la colonne que nous voulons séparer
   - `into` ![:faic](arrow-right) Nom des nouvelles colonnes crées par la séparation
   - `sep` ![:faic](arrow-right) Caractère qui indique où séparer le contenu
@@ -1263,7 +1263,7 @@ En utilisant le jeu de données `ChickWeight`, créez un tableau sommaire dans l
 
 Utilisez les verbes dplyr et le "pipe" `%>%`.
 
-```{r}
+```{r eval = 2}
 ?ChickWeight
 data(ChickWeight)
 ```
