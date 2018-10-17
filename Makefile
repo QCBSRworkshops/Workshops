@@ -1,7 +1,7 @@
 copy_css:
 	sh copy.sh
 
-pres:
+public:
 	sh build.sh
 
 template:
