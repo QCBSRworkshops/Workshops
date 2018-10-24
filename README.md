@@ -22,6 +22,12 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [French](https://qcbsrworkshops.github.io/Workshops/workshop02/workshop02-fr/workshop02-fr.html)
 
+### Workshop 04 - Linear models
+
+#### [English](https://qcbsrworkshops.github.io/Workshops/workshop04/workshop04-en/workshop04-en.html)
+
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop04/workshop04-fr/workshop04-fr.html)
+
 <br><br>
 
 [![Creative Common
