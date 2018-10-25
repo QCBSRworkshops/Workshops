@@ -191,7 +191,7 @@ grViz("
 
 ## Note for Windows user
 
-If the restriction `unable to write on disk` appears when you try to open R-Studio or to install a package, 
+If the restriction `unable to write on disk` appears when you try to open R-Studio or to install a package,
 
 .center[.alert[don't worry!]]
 
@@ -1349,7 +1349,7 @@ Open it directly from **Rstudio**: Help ![:faic](long-arrow-right) Cheatsheets
 ![](http://www.lapk.org/images/QuickR.png) [![:faic](external-link)](http://statmethods.net/)
 
 ![:scale 15%](https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gradient.png) Documentation [![:faic](external-link)](https://support.rstudio.com/hc/en-us/categories/200035113-Documentation)
- 
+
 An Introduction to R [![:faic](external-link)](https://cran.r-project.org/doc/manuals/r-release/R-intro.html)
 
 R Reference card 2.0 [![:faic](external-link)](http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf)
@@ -1361,4 +1361,4 @@ class: inverse, center, bottom
 
 # Thank you for attending!
 
-![:scale 50%](images/qcbs_logo.png)
+![:scale 50%](images/QCBS_logo.png)

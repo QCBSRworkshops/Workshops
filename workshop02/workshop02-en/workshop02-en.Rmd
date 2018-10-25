@@ -593,7 +593,7 @@ head(CO2) # looking good!
 ---
 ## Exporting data
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 write.csv(CO2, file = "co2_new.csv")
 ```
 

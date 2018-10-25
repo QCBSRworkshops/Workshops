@@ -192,7 +192,7 @@ grViz("
 
 ## Note pour les utilisateurs Windows
 
-Si la restriction `unable to write on disk`apparaît quand vous ouvrez R Studio ou que vous installez une bibliothèque, 
+Si la restriction `unable to write on disk`apparaît quand vous ouvrez R Studio ou que vous installez une bibliothèque,
 
 .center[.alert[pas de panique!]]
 
@@ -243,16 +243,16 @@ c(1:40)
 ## Erreur et avertissement
 
 
-.alert[Warning message] 
+.alert[Warning message]
 
-Met en garde l'utilisateur sans arrêter l'exécution d'une fonction. 
+Met en garde l'utilisateur sans arrêter l'exécution d'une fonction.
 
 Bien que la fonction puisse vous donner une réponse, il pourrait y avoir un problème avec vos entrées. Ainsi, le calcul pourrait être erroné.
 
 
-.alert[Error message] 
+.alert[Error message]
 
-Arrêtera l'exécution en cours car R est incapable de réaliser le calcul. 
+Arrêtera l'exécution en cours car R est incapable de réaliser le calcul.
 
 Il indique un problème dans votre code.
 
@@ -531,7 +531,7 @@ class: inverse, center, middle
 
 --
 
-`array` ![:faic](arrow-right) Objet 3D généré en combinant plusieurs matrices de même type. Vecteur = array 1D. Matrice = array 2D. 
+`array` ![:faic](arrow-right) Objet 3D généré en combinant plusieurs matrices de même type. Vecteur = array 1D. Matrice = array 2D.
 
 --
 
@@ -623,7 +623,7 @@ impair <- c(1, 3, 5, 7)
 ---
 ## Vecteurs
 
-On peut utiliser des vecteurs pour faire des calculs: 
+On peut utiliser des vecteurs pour faire des calculs:
 
 ```{r}
 x <- c(1:5)
@@ -1004,7 +1004,7 @@ plot(y = b, x = a)
 ```
 
 ---
-## Défi 12: Solution 
+## Défi 12: Solution
 
 ```{r, echo = F}
 a <- 1:100
@@ -1326,7 +1326,7 @@ Recherchez les fonctions appropriées pour effectuer les opérations suivantes:
 ---
 class: inverse, center, middle
 
-# Ressources additionnelles 
+# Ressources additionnelles
 
 ---
 ## Cheat 4ever
@@ -1364,7 +1364,7 @@ Ouvrez-les directement depuis **Rstudio**: Help ![:faic](long-arrow-right) Cheat
 ![](http://www.lapk.org/images/QuickR.png) [![:faic](external-link)](http://statmethods.net/)
 
 ![:scale 15%](https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gradient.png) Documentation [![:faic](external-link)](https://support.rstudio.com/hc/en-us/categories/200035113-Documentation)
- 
+
 An Introduction to R [![:faic](external-link)](https://cran.r-project.org/doc/manuals/r-release/R-intro.html)
 
 R Reference card 2.0 [![:faic](external-link)](http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf)
@@ -1380,4 +1380,4 @@ class: inverse, center, bottom
 
 # Merci d'avoir participé!
 
-![:scale 50%](images/qcbs_logo.png)
+![:scale 50%](images/QCBS_logo.png)

@@ -598,7 +598,7 @@ head(CO2) # cela fonctionne! :)
 
 Pour enregistrer dans le répertoire de travail des données que vous avez créées ou modifiées dans R, utilisez la fonction `write.csv()`.
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 write.csv(CO2, file = "co2_new.csv")
 ```
 
