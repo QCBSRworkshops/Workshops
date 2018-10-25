@@ -6,6 +6,12 @@
   link_en: "workshop02/workshop02-en/workshop02-en.html"
   link_fr: "workshop02/workshop02-fr/workshop02-fr.html"
 
+- name: "Workshop 03 - Introduction to ggplot2"
+  link_en: "workshop03/workshop03-en/workshop03-en.html"
+
 - name: "Workshop 04 - Linear models"
   link_en: "workshop04/workshop04-en/workshop04-en.html"
   link_fr: "workshop04/workshop04-fr/workshop04-fr.html"
+
+- name: "Workshop 05 - Programming in R"
+  link_en: "workshop05/workshop05-en/workshop05-en.html"

@@ -22,11 +22,19 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [French](https://qcbsrworkshops.github.io/Workshops/workshop02/workshop02-fr/workshop02-fr.html)
 
+### Workshop 03 - Introduction to ggplot2
+
+#### [English](https://qcbsrworkshops.github.io/Workshops/workshop03/workshop03-en/workshop03-en.html)
+
 ### Workshop 04 - Linear models
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop04/workshop04-en/workshop04-en.html)
 
 #### [French](https://qcbsrworkshops.github.io/Workshops/workshop04/workshop04-fr/workshop04-fr.html)
+
+### Workshop 05 - Programming in R
+
+#### [English](https://qcbsrworkshops.github.io/Workshops/workshop05/workshop05-en/workshop05-en.html)
 
 <br><br>
 
