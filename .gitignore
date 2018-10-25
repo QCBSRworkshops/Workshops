@@ -4,6 +4,8 @@ assets
 Workshop01*.html
 *_Slides_files
 public/
+templateWorkshops-master/
+master.zip
 
 # History files
 .Rhistory
