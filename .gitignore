@@ -1,8 +1,8 @@
 
 qcbsR*
 assets
-Workshop01*.html
-*_Slides_files
+*.html
+*_files
 public/
 templateWorkshops-master/
 master.zip
