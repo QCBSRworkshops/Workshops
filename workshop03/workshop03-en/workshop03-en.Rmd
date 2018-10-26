@@ -73,11 +73,11 @@ if(!require(ggpubr)) library(ggpubr)
 if(!require(ggsignif)) install.packages("ggsignif")
 if(!require(ggsignif)) library(ggsignif)
 
-if(!require(ggvegan)) install.packages("ggvegan")
-if(!require(ggvegan)) library(ggvegan)
+# if(!require(ggvegan)) install.packages("ggvegan")
+# if(!require(ggvegan)) library(ggvegan)
 
-if(!require(ggvegan)) install.packages("ggdendro")
-if(!require(ggvegan)) library(ggdendro)
+if(!require(ggdendro)) install.packages("ggdendro")
+if(!require(ggdendro)) library(ggdendro)
 
 if(!require(rworldmap)) install.packages("rworldmap")
 if(!require(rworldmap)) library(rworldmap)
