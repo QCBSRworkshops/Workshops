@@ -583,7 +583,7 @@ apply(CO2[,4:5], MARGIN = 2, FUN = mean)
 ---
 ## Enregistrer son espace de travail
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 # Sauver l'espace de travail avec tous les objets
 save.image(file="co2_project_Data.RData")
 
@@ -593,6 +593,9 @@ load("co2_project_Data.RData") # Charger tout ce qui se trouvait dans l'espace d
 head(CO2) # cela fonctionne! :)
 ```
 
+```{r, echo=F}
+head(CO2)
+```
 ---
 ## Exporter des données
 

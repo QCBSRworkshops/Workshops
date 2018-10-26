@@ -1,7 +1,7 @@
 ---
 title: "Workshop 2: Loading and Manipulating Data"
 subtitle: "QCBS R Workshop Series"
-author: "Québec Centre for Biodiversity Science"
+author: "Qu?bec Centre for Biodiversity Science"
 output:
   xaringan::moon_reader:
     includes:
@@ -40,22 +40,22 @@ library(magrittr)
 
 ## Learning Objectives
 
-1. Creating an R project 
+1. Creating an R project
 2. Writing a script
 3. Loading, exploring and saving data
-4. Learn to manipulate data frames with tidyr, dplyr, maggritr 
+4. Learn to manipulate data frames with tidyr, dplyr, maggritr
 
 ---
-## RStudio projects 
+## RStudio projects
 
-* What is this? 
+* What is this?
   - Within RStudio, Projects make it easy to separate and keep your work organized.  
   - All files, scripts, documentation related to a specific project are bound together
 
-* Encourages reproducibility and easy sharing. 
+* Encourages reproducibility and easy sharing.
 
 ---
-## Create a new project 
+## Create a new project
 
 Use the **Create project** command (available in the Projects menu and the global toolbar)
 
@@ -63,7 +63,7 @@ Use the **Create project** command (available in the Projects menu and the globa
 ![:scale 60%](images/0_Create_a_new_project.png)]
 
 ---
-## Keep your files organized! 
+## Keep your files organized!
 
 One project = one folder :)
 
@@ -89,13 +89,13 @@ Dataset should be stored as comma-separated value files (.csv) in the working di
 ## Choose filenames names wisely
 
 .pull-left[
-**Good!** 
+**Good!**
 - rawDatasetAgo2017.csv
 - co2_concentrations_QB.csv
 - 01_figIntro.R]
 
 .pull-right[
-**Bad!** 
+**Bad!**
 - final.csv (*Uninformative!*)
 - safnnejs.csv (*Random!*)
 - 1-4.csv (*Avoid using only numbers!*)
@@ -113,14 +113,14 @@ Dataset should be stored as comma-separated value files (.csv) in the working di
   - Site ]
 
 .pull-right[
-**Bad!** 
+**Bad!**
  - a
  - 3
  - supercomplicatedverylongname]
 
 ---
 ## Things to consider with your data input
- 
+
 
 .pull-left[
 * No text in numeric columns
@@ -138,7 +138,7 @@ Dataset should be stored as comma-separated value files (.csv) in the working di
 * No merged cells]
 
 ---
-## Bad data examples: 
+## Bad data examples:
 
 .pull-left[
 ![:scale 120%](images/Excel_csv_good_bad/excel_values.png)]
@@ -148,9 +148,9 @@ Dataset should be stored as comma-separated value files (.csv) in the working di
 ]
 
 ---
-## Horrible data examples: 
+## Horrible data examples:
 
-Bad data preservation practices 
+Bad data preservation practices
 
 .center[
 ![:scale 85%](images/HorribleData.png)]
@@ -215,7 +215,7 @@ The `#` symbol in a script tells R to ignore anything remaining on this line of 
 * Remember what you did
 * Tell collaborators what you did
 * Good step towards reproducible science
-* Be as detailed as possible 
+* Be as detailed as possible
 
 
 ---
@@ -247,9 +247,9 @@ This allows you to move quickly between sections and hide sections
 
 
 ---
-## Housekeeping 
+## Housekeeping
 
-The first command at the top of all scripts may be: `rm(list = ls())`. 
+The first command at the top of all scripts may be: `rm(list = ls())`.
 This command:
 
 * Clears R memory
@@ -272,9 +272,9 @@ Demo â€“ Try to add some test data to R and then see how `rm(list = ls())` remov
 
 
 ```{r, eval = TRUE, error = TRUE}
-A<-"Test" # Put some data in workspace 
-A <- "Test" # Note that you can use spaces! 
-A = "Test" # <- or = can be used equally 
+A<-"Test" # Put some data in workspace
+A <- "Test" # Note that you can use spaces!
+A = "Test" # <- or = can be used equally
 
 #Note that it is best practice to use "<-" for assigment instead of "="
 A
@@ -301,7 +301,7 @@ You can download the data and the script for this workshop from the wiki:
 
 .center[http://qcbs.ca/wiki/r/workshop2]
 
-Save the files in the folder where your created your R project. 
+Save the files in the folder where your created your R project.
 
 ---
 ## Working Directory
@@ -347,7 +347,7 @@ Import data into R using `read.csv`:
 CO2 <- read.csv("co2_good.csv", header=TRUE)
 ```
 
-Note that this will: 
+Note that this will:
 * Create a new object in R called `CO2`;
 * The filename is written within quotation marks ('file' or "file");
 * If you needed to fetch the filename from another directory that is not yours, you would have to write the full extension (e.g., `"C:/Users/Mario/Downloads/co2_good.csv"`)
@@ -390,7 +390,7 @@ R Command  					| Action
 `tail(CO2)`         | look at the last few rows
 `names(CO2)`				| names of the columns in the dataframe
 `attributes(CO2)`		| attributes of the dataframe
-`dim(CO2)`          | dimensions of the dataframe 
+`dim(CO2)`          | dimensions of the dataframe
 `ncol(CO2)`					| number of columns
 `nrow(CO2)`					| number of rows
 
@@ -428,7 +428,7 @@ Very useful to check data type (mode) of all columns to make sure R loaded data 
 ]
 .pull-right[
 
-`tail()` 
+`tail()`
 
 `str()`
 ]
@@ -438,13 +438,13 @@ Very useful to check data type (mode) of all columns to make sure R loaded data 
 .pull-left[
 `names()`
 
-`attributes()` 
+`attributes()`
 ]
 .pull-right[
 
 `dim()`
 
-`ncol()` 
+`ncol()`
 
 `nrow()`
 ]
@@ -480,12 +480,12 @@ mydata$Variable1 # Also extracts the first column
 ---
 ## Renaming variables
 
-Variables names can be changed within R. 
+Variables names can be changed within R.
 
 ```{r, eval = TRUE}
 # First lets make a copy of the dataset to play with
 CO2copy <- CO2
-# names() gives you the names of the variables present in the data frame 
+# names() gives you the names of the variables present in the data frame
 names(CO2copy)
 
 # Changing from English to French names (make sure you have the same levels!)
@@ -503,41 +503,41 @@ See `?paste` and `?paste0`.
 
 ```{r, eval = TRUE}
 # Let's create an unique id for our samples:
-# Don't forget to use "" for strings 
+# Don't forget to use "" for strings
 CO2copy$uniqueID <- paste0(CO2copy$Plante,
-                           "_",CO2copy$Categorie, 
+                           "_",CO2copy$Categorie,
                            "_", CO2copy$Traitement)
 
-# observe the results 
+# observe the results
 head(CO2copy$uniqueID)
 ```
 
 ---
 ## Creating new variables
 
-Creating new variables works for numbers and mathematical operations as well! 
+Creating new variables works for numbers and mathematical operations as well!
 
 ```{r, eval = FALSE}
-# Let's standardize our variable "absortion" to relative values 
+# Let's standardize our variable "absortion" to relative values
 CO2copy$absortionRel <- CO2copy$absortion/max(CO2copy$absortion)  
 
-# Observe the results 
+# Observe the results
 head(CO2copy$absortionRel)
 ```
 
 ---
 ## Subsetting data
 
-There are many ways to subset a data frame 
+There are many ways to subset a data frame
 
 ```{r, eval = FALSE}
-# Let's keep working with our CO2copy data frame 
+# Let's keep working with our CO2copy data frame
 
 # Select only "Plante" and "absortionRel" columns. (Don't forget the ","!)
-CO2copy[,c("Plante", "absortionRel")] 
+CO2copy[,c("Plante", "absortionRel")]
 
-# Subset data frame from rows from 1 to 50 
-CO2copy[1:50,] 
+# Subset data frame from rows from 1 to 50
+CO2copy[1:50,]
 ```
 
 
@@ -545,16 +545,16 @@ CO2copy[1:50,]
 ## Subsetting data
 
 ```{r, eval = F}
-# Select observations matching only the nonchilled Traitement. 
-CO2copy[CO2copy$Traitement == "nonchilled",] 
+# Select observations matching only the nonchilled Traitement.
+CO2copy[CO2copy$Traitement == "nonchilled",]
 
-# Select observations with absortion higher or equal to 20 
+# Select observations with absortion higher or equal to 20
 CO2copy[CO2copy$absortion >= 20, ]  
 
-# Select observations with absortion higher or equal to 20 
+# Select observations with absortion higher or equal to 20
 CO2copy[CO2copy$Traitement  == "nonchilled" & CO2copy$absortion >= 20, ]
 
-# We are done playing with the Dataset copy, lets erase it. 
+# We are done playing with the Dataset copy, lets erase it.
 CO2copy <- NULL
 ```
 
@@ -592,7 +592,7 @@ print(paste("the standard deviation of concentration is:", sdConc))
 # Let's plot a histogram to explore the distribution of "uptake"
 hist(CO2$uptake)
 
-# Increasing the number of bins to observe better the pattern 
+# Increasing the number of bins to observe better the pattern
 hist(CO2$uptake, breaks = 40)
 ```
 
@@ -606,8 +606,8 @@ Use `apply()` to calculate the means of the last two columns of the data frame (
 ```
 
 ```{r}
-apply(CO2[,4:5], 
-      MARGIN = 2, 
+apply(CO2[,4:5],
+      MARGIN = 2,
       FUN = mean)
 ```
 
@@ -615,7 +615,7 @@ apply(CO2[,4:5],
 ## Saving your Workspace
 
 
-```{r, eval = TRUE}
+```{r, eval = F}
 # Saving an R workspace file that stores all your objects
 save.image(file="co2_project_Data.RData")
 
@@ -623,10 +623,14 @@ save.image(file="co2_project_Data.RData")
 # Clear your memory
 rm(list = ls())
 
- 
+
 # Reload your data
 load("co2_project_Data.RData")
 head(CO2) # Looking good!
+```
+
+```{r, echo=F}
+head(CO2)
 ```
 
 ---
@@ -634,7 +638,7 @@ head(CO2) # Looking good!
 
 R disposes of `write` functions that allow you to write objects directly to files in your computer. Let us use the `write.csv` function to save our CO2 data into a .CSV file:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 write.csv(CO2, file = "co2_new.csv")
 ```
 
@@ -827,7 +831,7 @@ Fixed!
 ---
 class: inverse, center, middle
 
-# Learn to manipulate data with tidyr, dyplr, maggritr 
+# Learn to manipulate data with tidyr, dyplr, maggritr
 
 ---
 ## Using `tidyr` to reshape data frames
@@ -844,7 +848,7 @@ library(tidyr)
 ## Data formats
 
 
-.pull-left[ 
+.pull-left[
 **Wide format**
 ```{r, echo=FALSE, eval = T}
 # Let's create a new data frame
@@ -855,7 +859,7 @@ wide
 ```
 ]
 
-.pull-right[ 
+.pull-right[
 **Long format**
 ```{r, echo=FALSE, eval = T}
 long = gather(wide, Measurement, Value, DBH, Height)
@@ -866,11 +870,11 @@ long
 ---
 ## long vs wide format
 
-.pull-left[ 
+.pull-left[
 **Wide** data format has a separate column for each variable or each factor in your study]
 
-.pull-right[ 
-**Long** data format has a column for possible variables and a column for the values of those variables] 
+.pull-right[
+**Long** data format has a column for possible variables and a column for the values of those variables]
 
 ------------
 
@@ -887,7 +891,7 @@ Tidying allows you to manipulate the structure of your data while preserving all
 
 `spread()` - convert from long to wide format
 
-.center[ 
+.center[
 ![scale:90%](images/gather-spread.png)]
 
 ---
