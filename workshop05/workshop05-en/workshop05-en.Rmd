@@ -221,8 +221,7 @@ statement4
 Paws <- "cat"
 Scruffy <- "dog"
 Sassy <- "cat"
-Brigitte <- "hen"
-animals <- c(Paws, Scruffy, Sassy, Brigitte)
+animals <- c(Paws, Scruffy, Sassy)
 ```
 
 1. Use an `if` statement to print “meow” if `Paws` is a “cat”.
@@ -233,15 +232,21 @@ animals <- c(Paws, Scruffy, Sassy, Brigitte)
 ## Challenge 1 - Solution ![:cube]()
 
 ```{r}
-animals <- c(Paws, Scruffy, Sassy, Brigitte)
-
-for(val in 1:4) {
-  if(animals[val] == 'cat') {
-    print("meow")
-  }else if(animals[val] == 'dog') {
-    print("woof")
-  }else print("what?")
+if(Paws == 'cat') {
+  print("meow")
 }
+```
+```{r}
+x = Paws
+# x = Scruffy
+if(x == 'cat') {
+  print("meow")
+} else {
+  print("meow")
+}
+```
+```{r}
+ifelse(animals == 'dog', "woof", "meow")
 ```
 
 ---
@@ -783,9 +788,12 @@ for (i in 1:length(CO2[,1])) {
 ]
 
 ---
-## Create a plot using `for` loop and `if`
+## Challenge 4 ![:cube]()
 
-```{r, eval = TRUE, echo = FALSE, fig.height=7, fig.width=7}
+<br>
+Create a plot using `for` loop and `if`
+
+```{r, eval = TRUE, echo = FALSE, fig.height=6, fig.width=7}
 plot(x=CO2$conc, y=CO2$uptake, type="n", cex.lab=1.4, xlab="CO2 Concentration", ylab="CO2 Uptake") # Type "n" tells R to not actually plot the points.
 
 for (i in 1:length(CO2[,1])) {
@@ -812,6 +820,11 @@ for (i in 1:length(CO2[,1])) {
 Generate a plot showing **concentration versus uptake** where each plant is shown using a different .alert[colour] point.
 
 .alert[Bonus points] for doing it with nested loops!
+
+.comment[Steps: <br>
+1. Create an empty plot <br>
+2. Create a list of plants (hint: `?unique`) <br>
+3. Fill the plot using `for` and `if` statements]
 
 ---
 ## Challenge 4: Solution ![:cube]()
@@ -1383,4 +1396,4 @@ class: inverse, center, bottom
 
 # Thank you for attending this workshop!
 
-![:scale 50%](images/QCBS_logo.png)
+![:scale 50%](images/qcbs_logo.png)
