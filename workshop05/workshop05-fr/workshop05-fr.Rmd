@@ -1,0 +1,1383 @@
+---
+title: "Atelier 5: Programmation en R"
+subtitle: "Série d'ateliers R du CSBQ"
+author: "Centre des sciences de la biodiversité du Québec"
+output:
+  xaringan::moon_reader:
+    includes:
+      in_header: qcbsR-header.html
+    lib_dir: assets
+    seal: true
+    css: ["default", "qcbsR.css", "qcbsR-fonts.css"]
+    nature:
+      beforeInit: "qcbsR-macros.js"
+      highlightLines: true
+---
+
+
+```{r setup, echo = F}
+knitr::opts_chunk$set(
+  comment = "#",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width=6, fig.height=6,
+  fig.align = 'center'
+)
+```
+
+## Objectifs d'apprentissage
+
+1. Prendre connaissance de **structures de contrôle**
+2. Écrire des fonctions dans R
+3. Réduire le temps d’exécution des codes
+4. Paquets R utiles
+
+---
+class: inverse, center, middle
+
+# Rappel
+
+---
+## Objets
+
+![](images/matrix.png)
+
+---
+## Vecteurs
+
+Vecteurs numériques
+
+```{r}
+  num.vector <- c(1, 4, 3, 98, 32, -76, -4)
+```
+```{r}
+  num.vector
+```
+
+---
+## Tableaux de données
+
+vecteurs
+
+```{r}
+  siteID <- c("A1.01", "A1.02", "B1.01", "B1.02")
+  soil_pH <- c(5.6, 7.3, 4.1, 6.0)
+  num.sp <- c(17, 23, 15, 7)
+  treatment <- c("Fert", "Fert", "No_fert", "No_fert")
+```
+
+On combine ces vecteurs à l'aide de la fonction `data.frame`
+
+```{r}
+  my.first.df <- data.frame(siteID, soil_pH, num.sp, treatment)
+```
+```{r}
+  my.first.df
+```
+
+---
+## Listes
+
+```{r}
+  my.first.list <- list(siteID, soil_pH, num.sp, treatment)
+```
+
+```{r}
+  my.first.list
+```
+
+---
+class: inverse, center, middle
+
+# Contrôle de flux
+
+---
+## Contrôle de flux
+
+En programmation, le contrôle de flux est simplement l'ordre dans lequel le programme est exécuté.
+
+#### Pourquoi est-il avantageux de structurer nos programmes?
+
+- On **réduit la complexité** et la durée de la tâche;
+- Une structure logique **améliore la clarté** du code;
+- **Plusieurs programmeurs peuvent alors travailler sur un même programme**.
+
+.large[.center[**Tout ceci augmente la productivité!**]]
+
+---
+## Contrôle de flux
+
+On peut utiliser des organigrammes pour planifier et représenter la structure de  programmes.
+
+<br>
+
+![](images/flowchart1.png)
+
+---
+## Représenter la structure
+
+Les deux composantes de base de programmation sont:
+
+.pull-left[
+
+#### La sélection
+
+Exécuter des commandes **conditionnellement** en utilisant:
+
+```r
+if
+if else
+```
+
+]
+
+.pull-right[
+
+#### L'itération
+
+Répéter l'exécution d'une commande **en boucle** tant qu'une condition n'est pas satisfaite.
+
+```r
+for
+while
+repeat
+```
+]
+
+---
+## Prise de décisions
+
+.pull-left[
+
+**Commande `if`**
+
+```R
+if(condition) {
+  expression
+}
+```
+.center[
+![:scale 60%](images/if.png)
+]
+]
+
+.pull-right[
+
+**Commande `if` `else`**
+
+```r
+if(condition) {
+  expression 1
+} else {
+  expression 2
+}
+```
+.center[
+![:scale 78%](images/ifelse.png)
+]
+]
+
+---
+#### Comment peut-on tester plus qu'une condition?
+
+- `if` et `if` `else` testent une seule condition
+- On peut aussi utiliser la commande `ifelse` pour:
+    - tester un vecteur de conditions;
+    - exécuter une opération selon certaines conditions.
+
+```r
+a <- 1:10
+ifelse(a > 5, "yes", "no")
+
+a <- (-4):5
+sqrt(ifelse(a >= 0, a, NA))
+```
+
+---
+## Commandes `if` `else` nichées
+
+.small[
+```r
+if (test_expression1) {
+statement1
+} else if (test_expression2) {
+statement2
+} else if (test_expression3) {
+statement3
+} else {
+statement4
+}
+```
+]
+
+.center[
+![:scale 68%](images/nested_ifelse.png)]
+
+---
+## Exercice 1 ![:cube]()
+
+```{r}
+Minou <- "chat"
+Pitou <- "chien"
+Filou <- "chat"
+animaux <- c(Minou, Pitou, Filou)
+```
+
+1. Utilisez une commande `if` pour afficher `“meow”` si `Minou` est un `“chat”`.
+2. Utilisez une commande `if`  `else` pour afficher `“woof”` si un objet a la valeur `“chien”`, et `“meow”` si non. Essayez ceci sur les objets `Pitou` et `Filou`.
+3. Utilisez la fonction `ifelse` pour afficher `“woof”` pour les `animaux` qui sont des chiens et `“meow”` pour les `animaux` qui sont des chats.
+
+---
+## Exercice 1 - Solution ![:cube]()
+
+```{r}
+animaux <- c(Minou, Pitou, Filou)
+
+for(val in 1:3) {
+  if(animaux[val] == "chat") {
+    print("meow")
+  }else if(animaux[val] == "chien") {
+    print("woof")
+  }else print("quoi?")
+}
+```
+
+---
+## Attention à la syntaxe des expressions!
+
+Les accolades `{}` indiquent à R d'exécuter une expression au complet. Par exemple:
+
+```r
+if ((2 + 1) == 4) print("Les maths, c'est logique!.") 
+else print("Houston, on a un problème.")
+```
+
+.center[.alert[Ceci ne fonctionne pas, parce que R évalue la première ligne sans reconnaître que votre expression continue avec une commande `else` sur la prochaine ligne!]]
+
+Utilisez plutôt:
+
+```{r}
+if (2+2 == 4) { #<<
+  print("Les maths, c'est logique!")
+} else { #<<
+  print("Houston, on a un problème.")
+} #<<
+```
+---
+## Rappel: opérateurs logiques
+
+| Opérateur | Signification |
+| :-------------: | :-------------: |
+| `==`  | égal à  |
+| `!=`  | pas égal à  |
+| `<`   | plus petit que  |
+| `<=`  | plus petit que ou égal à  |
+| `>`   | plus grand que  |
+| `>=`  | plus grand que ou égal à  |
+| `x&y` | x ET y |
+| `x`&#124;`y`  | x OU y  |
+| `isTRUE(x)`  | est-ce que X est vrai? |
+
+
+---
+## Itération
+
+Une boucle permet de répéter une ou plusieurs opérations.
+
+Les boucles sont utiles pour:
+- faire quelque chose pour chaque élément d'un objet.
+- faire quelque chose jusqu'à la fin des données à traiter.
+- faire quelque chose pour chaque fichier dans un répertoire.
+- faire quelque chose qui peut échouer, jusqu'à ce que ça fonctionne.
+- faire des calculs itératifs jusqu'à convergence.
+
+---
+## Boucles `for`
+
+Une boucle `for` exécute un nombre fixe d'itérations:
+
+```R
+for(i in séquence) {
+  expression
+  }
+```
+
+.center[
+![:scale 45%](images/forloop.png)
+]
+
+---
+## `for` loop
+
+La lettre `i` peut être remplacée par n'importe quelle nom de variable, liste de vecteurs, etc. 
+
+```r
+# Essayez les commandes ci-dessous et observez les résultats:
+
+for (a in c("Bonjour", "programmeurs", "en R")) {
+  print(a) 
+}
+
+for (z in 1:30) {
+  a <- rnorm(n = 1, mean = 5, sd = 2)
+  print(a)
+}
+
+elements <- list(1:3, 4:10)
+for (element in elements) {
+  print(element)
+}
+```
+
+---
+## Boucle `for` loop
+
+Dans le prochain exemple, R évalue l'expression 5 fois:
+
+```r
+for(i in 1:5) {
+  expression
+}
+```
+
+Dans cet exemple, chaque instance de `m` est remplacé par chaque chiffre entre `1:10`, jusqu'au dernier élément de la séquence:
+.pull-left[
+```r
+for(m in 1:10) {
+  print(m*2)
+}
+```
+]
+.small[
+.pull-right[.pull-left[
+```{r echo=FALSE}
+for(m in 1:5) {
+  print(m*2)
+}
+```
+]
+.pull-right[
+```{r echo=FALSE}
+for(m in 6:10) {
+  print(m*2)
+}
+```
+]
+]
+]
+---
+## Boucle `for` 
+
+.small[
+```r
+x <- c(2,5,3,9,6)
+count <- 0
+for (val in x) {
+  if(val %% 2 == 0) {
+    count = count+1
+  }
+}
+print(count)
+```
+]
+
+.center[
+![:scale 60%](images/forexample.png)
+]
+
+
+---
+## Boucle `for`
+
+Les boucles `for` sont souvent utilisées pour exécuter des opérations successivement sur un jeu de données. Nous utiliserons des boucles pour exécuter des fonctions sur le jeu de données `CO2`, qui est intégré dans R.
+
+```R
+data(CO2) # ceci charge le jeu de données intégré dans R
+
+for (i in 1:length(CO2[,1])) { # pour chaque ligne du jeu de données CO2
+  print(CO2$conc[i]) # affiche les concentrations de CO2
+}
+
+for (i in 1:length(CO2[,1])) { # pour chaque ligne du jeu de données CO2
+  if(CO2$Type[i] == "Quebec") { # si le type est "Quebec""
+    print(CO2$conc[i]) # affiche les concentrations de CO2
+    }
+}
+```
+
+---
+## Boucle `for`
+
+.alert[Truc 1]. Pour exécuter une boucle sur chaque ligne d'un jeu de donnée, on utilise la fonction `nrow()`
+
+```r
+for (i in 1:nrow(CO2)) { # pour chaque ligne du jeu de données CO2
+  print(CO2$conc[i]) # affiche les concentrations de CO2
+}
+```
+
+.alert[Truc 2]. On peut aussi itérer des opérations sur les éléments d'une colonne.
+
+```r
+for (p in 1:CO2$conc) { # pour chacune des valeurs de concentration de CO2
+  print(p) # afficher cette valeur
+}
+```
+
+---
+## Boucle `for`
+
+L'expression dans la boucle peut peut contenir plusieurs lignes de commandes différentes.
+
+```r
+for (i in 4:5) { # pour i de 4 à 5
+  print(colnames(CO2)[i])
+  print(mean(CO2[,i])) # affiche les moyennes de cette colonne 
+}
+```
+
+Sortie:
+```{r echo = FALSE}
+for (i in 4:5) { # pour i de 4 à 5
+  print(colnames(CO2)[i])
+  print(mean(CO2[,i])) # affiche les moyennes de cette colonne 
+}
+```
+---
+## Boucles `for` nichées
+
+Dans certains cas, des boucles nichées peuvent être utiles pour accomplir une tâche. Dans ce cas, il est important d'utiliser un nom de variable d'itération différent pour chaque boucle. Ici, on utilise `i` et `n`:
+.pull-left[
+```r
+for (i in 1:3) {
+  for (n in 1:3) {
+    print (i*n)
+  }
+}
+```
+]
+.pull-right[
+```{r echo = -c(2:5)}
+# Sortie
+
+for (i in 1:3) {
+  for (n in 1:3) {
+    print (i*n)
+  }
+}
+```
+]
+
+---
+## Encore mieux: la famille `apply()`
+
+La famille de fonctions `apply()` consistent de fonctions vectorisées qui permettent **d'éviter de créer des boucles de façon explicite**.
+
+`apply()` applique des fonctions sur une **matrice**.
+.pull-left[
+```{r}
+(hauteur <- matrix(c(1:10, 21:30),
+            nrow = 5,
+            ncol = 4))
+
+```
+]
+.pull-right[
+```{r}
+apply(X = hauteur,
+      MARGIN = 1,
+      FUN = mean)
+
+```
+
+```r
+?apply
+```
+]
+
+---
+## `lapply()`
+
+`lapply()` applique une fonction sur chaque élément d'une `liste`.
+
+`lapply()` fonctionne aussi sur d'autres objets, comme des **trames de données (“dataframe”)** ou des **vecteurs**.
+
+La sortie est une `liste` (d'où le “`l`” dans `lapply`) ayant le même nombre d'éléments que l'objet d'entrée.
+
+.pull-left[
+```{r eval = FALSE}
+SimulatedData <- list(
+  SimpleSequence = 1:4,
+  Norm10 = rnorm(10),
+  Norm20 = rnorm(20, 1),
+  Norm100 = rnorm(100, 5))
+
+# Applique mean() sur chaque élément de la liste 
+lapply(SimulatedData, mean)
+```
+]
+.small[
+.pull-right[
+```{r echo=FALSE}
+SimulatedData <- list(SimpleSequence = 1:4,
+             Norm10 = rnorm(10),
+             Norm20 = rnorm(20, 1),
+             Norm100 = rnorm(100, 5))
+
+# Applique mean() sur chaque élément de la liste
+lapply(SimulatedData, mean)
+```
+]
+]
+
+---
+## `sapply()`
+
+`sapply()` est une fonction ‘wrapper’ pour `lapply()`, qui produit une sortie simplifiée en `vecteur`, au lieu d'une `liste`.
+
+.small[
+```{r eval = TRUE}
+SimulatedData <- list(SimpleSequence = 1:4,
+             Norm10 = rnorm(10),
+             Norm20 = rnorm(20, 1),
+             Norm100 = rnorm(100, 5))
+```
+```{r}
+# Applique mean() sur chaque élément de la liste
+sapply(SimulatedData, mean)
+```
+]
+
+---
+## `mapply()`
+
+`mapply()` est une version multivariée de `sapply()`.
+
+`mapply()` applique une fonction sur le premier élément de chaque argument, ensuite sur le deuxième élément, et ainsi de suite. Par exemple:
+
+```{r}
+lilySeeds <- c(80, 65, 89, 23, 21)
+poppySeeds <- c(20, 35, 11, 77, 79)
+```
+```{r}
+# Output
+mapply(sum, lilySeeds, poppySeeds)
+```
+
+---
+## `tapply()`
+
+`tapply()` applique une fonction sur des sous-ensembles d'un vecteur.
+
+`tapply()` est surtout utilisé quand un jeu de données contient différents groupes (*i*.*e*. niveaux/facteurs), et lorsqu'on veut appliquer une fonction sur chaque groupe.
+
+```{r}
+head(mtcars)
+```
+```{r}
+# obtient la moyenne de hp par groupe de cylindres
+tapply(mtcars$hp, mtcars$cyl, FUN = mean)
+```
+
+---
+## Exercice 2 ![:cube]()
+
+Votre outil pour mesurer le l'absorption de CO2 n'était pas bien calibré aux sites situés au Québec, et toutes les mesures sont donc 2 unités trop élevées.
+
+1. Utilisez une boucle pour corriger les mesures pour tous les sites aux Québec.
+
+2. Utilisez une méthode vectorisée pour calculer la moyenne de l'absorption de CO2 dans les deux groupes de sites.
+
+---
+
+## Exercice 2: Solution ![:cube]()
+
+
+1. Utiliser `for` et `if` pour corriger les mesures:
+```{r echo=TRUE}
+for (i in 1:dim(CO2)[1]) {
+  if(CO2$Type[i] == "Quebec") {
+    CO2$uptake[i] <- CO2$uptake[i] - 2
+  }
+}
+```
+
+2. Utiliser `tapply()` pour calculer la moyenne de chaque groupe de sites:
+```{r echo=TRUE}
+tapply(CO2$uptake, CO2$Type, mean)
+```
+---
+
+## Modifications aux boucles
+
+Habituellement, les boucles itèrent successivement jusqu'à leur fin.
+
+Il est parfois intéressant de modifier ce comportement.
+
+Par exemple, on peut arrêter l'exécution de la boucle quand une certaine condition est satisfaite ou quand l'itération a atteint un certain élément.
+
+On peut aussi sauter certains éléments selon certaines conditions, ou arrêter l'itération pour passer à la boucle suivante.
+
+Pour ceci, on introduit `break`, `next` and `while`.
+
+---
+## Modifier l'itération: `break`
+
+```r
+for(val in x) {
+  if(condition) { break }
+  statement
+}
+```
+
+![](images/break.png)
+
+---
+## Modifier l'itération: `next`
+
+```r
+for(val in x) {
+  if(condition) { next }
+  statement
+}
+```
+
+![](images/next.png)
+
+---
+## Modifier l'itération: `next`
+
+Affiche les concentrations $CO_{2}$ pour les traitements “chilled” et garder le compte du nombre d'itérations accomplies.
+```{r eval = FALSE}
+count <- 0
+
+for (i in 1:nrow(CO2)) {
+  if (CO2$Treatment[i] == "nonchilled") next
+  # Passer à l'itération suivante si c'est "nonchilled"
+  count <- count + 1
+  print(CO2$conc[i])
+}
+print(count) # Affiche le nombre d'itérations accomplies.
+```
+
+```{r echo = FALSE}
+count <- 0
+
+for (i in 1:nrow(CO2)) {
+  if (CO2$Treatment[i] == "nonchilled") next
+  # Passer à l'itération suivante si c'est "nonchilled"
+  count <- count + 1
+}
+print(count) # Les fonctions count et print ont été exécutées 42 fois.
+```
+
+```{r}
+sum(CO2$Treatment == "nonchilled")
+```
+
+---
+## Modifier l'itération: `break`
+
+On pourrait aussi accomplir ceci avec une boucle `repeat` et `break`:
+
+```{r eval = FALSE}
+count <- 0
+i <- 0
+repeat {
+      i <- i + 1
+      if (CO2$Treatment[i] == "nonchilled") next  # sauter cette itération
+      count <- count + 1
+      print(CO2$conc[i])
+      if (i == nrow(CO2)) break     # rompre la boucle
+    }
+print(count)
+```
+
+---
+## Modifier l'itération: `while`
+
+On pourrait aussi utiliser une boucle `while`:
+
+```{r eval = FALSE}
+i <- 0
+count <- 0
+while (i < nrow(CO2))
+{
+  i <- i + 1
+  if (CO2$Treatment[i] == "nonchilled") next  # sauter cette itération
+  count <- count + 1
+  print(CO2$conc[i])
+}
+print(count)
+```
+
+---
+## Exercice 3 ![:cube]()
+
+Votre outil pour mesurer la concentration ne fonctionne pas correctement.
+
+Aux sites situés au Mississippi, les concentrations de moins de 300 sont bien mesurés, mais les concentrations de plus de 300 étaient surestimées par 20 unités!
+
+Votre *mission* est d'écrire une boucle pour corriger ces mesures pour les sites du Mississippi.
+
+.alert[Truc]. Assurez-vous de charger les données originales avant de faire l'exercice:
+
+```{r}
+data(CO2)
+```
+
+
+---
+## Exercice 3: Solution ![:cube]()
+
+```{r}
+for (i in 1:nrow(CO2)) {
+  if(CO2$Type[i] == "Mississippi") {
+    if(CO2$conc[i] < 300) next
+    CO2$conc[i] <- CO2$conc[i] - 20
+  }
+}
+```
+.comment[Note: On peut écrire ceci de façon plus claire et concise:]
+```{r}
+for (i in 1:nrow(CO2)) {
+  if(CO2$Type[i] == "Mississippi" && CO2$conc[i] >= 300) {
+    CO2$conc[i] <- CO2$conc[i] - 20
+  }
+}
+```
+
+---
+## Visualization de données avec `for` et `if`
+
+Créons un graphique **uptake** vs **concentration** avec des points de couleurs différentes, ouù chaque couleur est associé à un type (*Quebec* ou *Mississippi*) et à un **treatment** (*chilled* ou *nonchilled*).
+
+.small[
+```{r, eval=F}
+plot(x = CO2$conc, y = CO2$uptake, type = "n", cex.lab=1.4,
+     xlab = "CO2 concentration", ylab = "CO2 uptake")
+# Type "n" dit à R de ne pas afficher les points
+for (i in 1:length(CO2[,1])) {
+  if (CO2$Type[i] == "Quebec" & CO2$Treatment[i] == "nonchilled") {
+    points(CO2$conc[i], CO2$uptake[i], col = "red")
+  }
+  if (CO2$Type[i] == "Quebec" & CO2$Treatment[i] == "chilled") {
+    points(CO2$conc[i], CO2$uptake[i], col = "blue")
+  }
+  if (CO2$Type[i] == "Mississippi" & CO2$Treatment[i] == "nonchilled") {
+    points(CO2$conc[i], CO2$uptake[i], col = "orange")
+  }
+  if (CO2$Type[i] == "Mississippi" & CO2$Treatment[i] == "chilled") {
+    points(CO2$conc[i], CO2$uptake[i], col = "green")
+  }
+}
+```
+]
+
+---
+## Create a plot using `for` loop and `if`
+
+```{r, eval = TRUE, echo = FALSE, fig.height=7, fig.width=7}
+plot(x=CO2$conc, y=CO2$uptake, type="n", cex.lab=1.4, xlab="CO2 Concentration", ylab="CO2 Uptake") # Type "n" dit à R de ne pas afficher les points
+
+for (i in 1:length(CO2[,1])) {
+  if (CO2$Type[i] == "Quebec" & CO2$Treatment[i] == "nonchilled") {
+    points(CO2$conc[i], CO2$uptake[i], col = "red")
+  }
+  if (CO2$Type[i] == "Quebec" & CO2$Treatment[i] == "chilled") {
+    points(CO2$conc[i], CO2$uptake[i], col = "blue")
+  }
+  if (CO2$Type[i] == "Mississippi" & CO2$Treatment[i] == "nonchilled") {
+    points(CO2$conc[i], CO2$uptake[i], col = "orange")
+  }
+  if (CO2$Type[i] == "Mississippi" & CO2$Treatment[i] == "chilled") {
+    points(CO2$conc[i], CO2$uptake[i], col = "green")
+  }
+}
+```
+
+---
+## Exercice 4![:cube]()
+<br>
+<br>
+
+Créez un graphique **concentration** vs **uptake**, où chaque plante est représentée par des points de .alert[couleurs] différentes.
+
+.alert[Points bonus] si vous utilisez des boucles nichées!
+
+---
+## Exercice 4: Solution ![:cube]()
+
+.small[
+```{r, echo = -1, fig.height=4}
+par(mar = c(4, 4.1, 0.5, 0.5))
+plot(x = CO2$conc, y = CO2$uptake, type = "n", cex.lab=1.4,
+     xlab = "CO2 concentration", ylab = "CO2 uptake")
+
+plants <- unique(CO2$Plant)
+
+for (i in 1:nrow(CO2)){
+  for (p in 1:length(plants)) {
+    if (CO2$Plant[i] == plants[p]) {
+      points(CO2$conc[i], CO2$uptake[i], col = p)
+}}}
+```
+]
+
+---
+class: inverse, center, middle
+
+# Écrire des fonctions
+
+---
+## Pourquoi écrire une fonction??
+
+Le gros du travail dans R est fait par des fonctions. Elles sont utiles pour:
+
+1. Répéter une même tâche, mais en changeant ses paramètres;
+2. Rendre votre code plus lisible;
+3. Rendre votre code plus facile à modifier et à maintenir;
+4. Partager du code entre différentes analyses;
+5. Partager votre code avec d'autres personnes;
+6. Modifier les fonctionalités par défaut de R.
+
+---
+## Mais qu'est ce qu'une fonction?
+
+<br>
+<br>
+.center[
+![](images/function.png)
+]
+
+
+---
+## Syntaxe d'une fonction
+
+```r
+function_name <- function(argument1, argument2, ...) {
+  expression...  # Ce que la fonction fait
+  return(value)  # Optionnel, pour sortir le résultat de la fonction
+}
+```
+
+---
+## Arguments d'une fonction
+
+```r
+function_name <- function(argument1, argument2, ...) {
+  expression...
+  return(value)
+}
+```
+
+Les arguments sont les données fournies en entrée à votre fonction et contiennent l'information nécessaire pour que la fonction opère correctement.
+
+Une fonction peut avoir entre 0 et une infinité d'arguments. Par exemple:
+.small[
+```{r}
+operations <- function(number1, number2, number3) {
+  result <- (number1 + number2) * number3
+  print(result)
+}
+```
+```{r}
+operations(1, 2, 3)
+```
+]
+---
+## Exercice 5 ![:cube]()
+
+Using what you learned previously on flow control, create a function `print_animal` that takes an `animal` as argument and gives the following results:
+
+À l'aide de vos nouvelles connaissances sur les structures de contrôle, créez une fonction appelée `print_animal` qui prend un `animal` en argument et sort les résultats suivants:
+
+```{r, echo=F}
+print_animal <- function(animal) {
+  if (animal == "dog") {
+    print("woof")
+  } else if (animal == "cat") {
+    print("meow")
+  }
+}
+```
+
+```{r}
+Scruffy <- "dog"
+Paws <- "cat"
+
+print_animal(Scruffy)
+
+print_animal(Paws)
+```
+
+
+---
+## Challenge 5: Solution ![:cube]()
+
+```r
+print_animal <- function(animal) {
+  if (animal == "dog") {
+    print("woof")
+  } else if (animal == "cat") {
+    print("meow")
+  }
+}
+```
+
+
+<br>
+<br>
+---
+## Valeurs par défaut dans une fonction
+
+Les arguments peuvent aussi être optionnels, auquel cas on peut leur donner une valeur par défaut.
+
+Ceci peut s'avérer utile si on utilise souvent une fonction avec les mêmes paramètres, mais qu'on veut tout de même garder la possibilité de changer leur valeur si nécessaire.
+
+```{r}
+operations <- function(number1, number2, number3 = 3) {
+  result <- (number1 + number2) * number3
+  print(result)
+}
+
+operations(1, 2, 3) # est équivalent à
+operations(1, 2)
+operations(1, 2, 2) # on peut toujours changer la valeur de number3
+```
+
+---
+## Argument `...`
+
+L'argument spécial `...` vous permet de passer des arguments à une autre fonction utilisée à l'intérieur de votre fonction. Ici, on utilise `...` pour passer des arguments à `plot()` et à `points()`.
+
+```{r, eval = FALSE}
+plot.CO2 <- function(CO2, ...) {
+  plot(x=CO2$conc, y=CO2$uptake, type="n", ...) # On utilise ... pour passer les arguments a plot(). 
+  for (i in 1:length(CO2[,1])){
+     if (CO2$Type[i] == "Quebec") {
+       points(CO2$conc[i], CO2$uptake[i], col = "red", type = "p", ...) #<<
+     } else if (CO2$Type[i] == "Mississippi") {
+       points(CO2$conc[i], CO2$uptake[i], col = "blue", type = "p", ...) #<<
+     }
+  }
+}
+plot.CO2(CO2, cex.lab=1.2, xlab="Concentration CO2", ylab="CO2 uptake")
+plot.CO2(CO2, cex.lab=1.2, xlab="Concentration CO2", ylab="CO2 uptake", pch=20)
+```
+
+
+---
+## Argument `...`
+
+L'argument spécial `...` vous permet de passer des arguments à une autre fonction utilisée à l'intérieur de votre fonction. Ici, on utilise `...` pour passer des arguments à `plot()` et à `points()`.
+
+```{r, echo=F, fig.height=4.5, fig.width=10}
+plot.CO2 <- function(CO2, ...) {
+  plot(x = CO2$conc, y = CO2$uptake, type = "n", ...)
+
+  for (i in 1:length(CO2[,1])){
+     if (CO2$Type[i] == "Quebec") {
+       points(CO2$conc[i], CO2$uptake[i], col="red", type="p", ...)
+     } else if (CO2$Type[i] == "Mississippi") {
+       points(CO2$conc[i], CO2$uptake[i], col="blue", type="p", ...)
+     }
+  }
+}
+par(mfrow=c(1,2), mar = c(4,4,1,1))
+plot.CO2(CO2, cex.lab=1.2, xlab="CO2 concentration", ylab="CO2 uptake")
+plot.CO2(CO2, cex.lab=1.2, xlab="CO2 concentration", ylab="CO2 uptake", pch=20)
+```
+
+---
+## Argument `...`
+
+L'argument spécial `...` permet d'entrer un nombre indéfini d'arguments. 
+
+```{r}
+sum2 <- function(...){
+  args <- list(...) #<<
+  result <- 0
+  for (i in args)  {
+    result <- result + i
+  }
+  return (result)
+}
+
+sum2(2, 3)
+sum2(2, 4, 5, 7688, 1)
+```
+
+---
+## Valeurs de retour
+
+La dernière expression évaluée dans une `fonction` devient la valeur de sortie.
+
+```{r}
+myfun <- function(x) {
+  if (x < 10) {
+    0
+  } else {
+    10
+  }
+}
+
+myfun(5)
+myfun(15)
+```
+
+.comment[`function()` sort la dernière valeur évaluée, même sans inclure la fonction `return()`.]
+
+---
+## Valeurs de retour
+
+.small[
+Utiliser `return()` de façon explicite peut être utile si la boucle doit terminer tôt, sortir de la fonction, et sortir une valeur.
+
+```{r}
+simplefun1 <- function(x) {
+  if (x<0)
+  return(x)
+}
+```
+
+Un seul objet (ou texte) de retour peut être renvoyé par une fonction. Par contre, ceci n'est pas une limite: on peut renovoyer une `liste` contenant plusieurs objets.
+
+.pull-left[
+```{r echo = TRUE}
+simplefun2 <- function(x, y) {
+  z <- x + y
+  return(list("result" = z,
+              "x" = x,
+              "y" = y))
+}
+```
+]
+
+.pull-right[
+.pull-left[
+<br>
+```{r, eval = FALSE}
+simplefun2(1, 2)
+```
+]
+.pull-right[
+```{r, echo = FALSE}
+simplefun2(1, 2)
+```
+]
+]
+]
+---
+## Exercice 6 ![:cube]()
+
+<br>
+En utilisant vos nouvelles connaissances de fonctions et de structures de contrôle, créez une fonction `bigsum` qui prend 2 arguments `a` et `b`, et:
+
+1. Sort 0 si la somme de `a` et `b` est strictement inférieure à 50;
+2. Sinon, sort la somme de `a` et `b`.
+
+---
+## Exercice 6: Solution ![:cube]()
+
+<br><br>
+
+.pull-left[
+**Solution 1**
+```r
+bigsum <- function(a, b) {
+  result <- a + b
+  if (result < 50) {
+    return(0)
+  } else {
+    return (result)
+  }
+}
+```
+]
+
+.pull-right[
+**Solution 2**
+```r
+bigsum <- function(a, b) {
+  result <- a + b
+  if (result < 50) {
+  0
+  } else {
+  result
+  }
+}
+```
+]
+
+
+---
+## Accessibilité des variables
+
+Il est essentiel de pouvoir situer nos variables, et de savoir si elles sont définies et accessibles.
+
+![:faic](arrow-right) Les variables définies .alert[à l'intérieur] d'une fonction ne sont pas accessibles à l'extérieur de la fonction!
+
+![:faic](arrow-right) Les variables définies .alert[à l'extérieur] d'une fonction sont accessibles à l'intérieur, mais ce n'est jamais une bonne idée! Votre fonction ne fonctionnera plus si la variable extérieure est effacée!
+
+---
+## Accessibilité des variables
+
+```{r, error = TRUE}
+var1 <- 3     # 'var1' est définie à l'extérieur de la fonction
+vartest <- function() {
+  a <- 4      # 'a' est définie a l'intérieur
+  print(a)    # affiche 'a'
+  print(var1) # affiche 'var1'
+}
+
+a             # on ne peut pas afficher 'a', car 'a' n'existe qu'à l'intérieur de la fonction 
+
+vartest()     # cvartest() affiche 'a' et 'var1'
+
+rm(var1)      # supprime 'var1'
+vartest()     # la fonction ne fonctionne plus, car 'var1' n'existe plus!
+```
+
+---
+## Accessibilité des variables
+
+.alert[Truc obligatoire.] Utilisez donc des arguments!
+
+De plus, à l'intérieur d'une fonction, les noms d'arguments remplaceront les noms des autres variables.
+
+```{r}
+var1 <- 3     # var1 est définie à l'extérieur de la fonction
+vartest <- function(var1) {
+  print(var1) # affiche var1
+}
+
+vartest(8)    # Dans notre fonction, var1 est maintenant notre argument et prend sa valeur
+
+var1          # var1 a toujours la même valeur à l'extérieur de la fonction
+```
+
+---
+
+## Accessibilité des variables
+
+.pull-left[
+.alert[Truc.] Faites très attention lorsque vous créez des variables à l'intérieur d'une condition, car la variable pourrait ne jamais être créée et causer des erreurs (parfois imperceptibles).
+<br>
+<br>
+<br>
+.alert[Truc.] Une bonne pratique serait de définir les variables à l'extérieur de la condition, puis ensuite de modifier leurs valeurs pour éviter ces problèmes. 
+]
+.small[
+.pull-right[
+```{r eval = FALSE}
+a <- 3
+if (a > 5) {
+  b <- 2
+}
+
+a + b
+```
+
+```{r eval = FALSE}
+# Error: object 'b' not found
+```
+
+.small[Si `b` avait déjà une valeur différente assignée dans l'environnement, on aurait .alert[gros] problème!
+
+R ne trouverait pas d'erreur, et la valeur de `a + b` serait entièrement différente!]
+
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# Bonnes pratiques de programmation
+
+---
+
+## Pourquoi devrais-je me soucier de bonnes pratiques de programmation?
+
+- Pour vous faciliter la vie;
+- Pour améliorer la lisibilité et faciliter le partage et la réutilisation de votre code;
+- Pour réduire le temps que vous passeriez à essayer de comprendre votre code.
+
+.center[.large[Faites attention aux conseils suivants!]]
+---
+
+## Gardez un code beau et propre
+
+Les indentations et les espaces sont une première étape vers un code lisible:
+
+- Utilisez des **espaces** avant et après vos opérateurs;
+- Utilisez toujours le même opérateur d'assignation. `<-` est préférable. `=` fonctionne, mais ne changez pas entre les deux;
+- Utilisez des crochets pour encadrer vos structures de contrôle de flux:
+<br>
+  - À l'intérieur des crochets, faites une indentation *d'au moins* 2 espaces;
+  - Les crochets de fermeture occupent généralement leur propre ligne, sauf s'ils précèdent une condition `else`.
+  <br>
+- Définissez chaque variable sur sa propre ligne.
+
+
+---
+
+## Gardez un code beau et propre
+
+À gauche, le code n'est pas espacé. Tous les crochets sont sur une ligne, et le code paraît malpropre. 
+
+.small[
+.pull-left[
+```r
+a<-4;b=3
+if(a<b){
+if(a==0)print("a zero")}else{
+if(b==0){print("b zero")}else print(b)}
+```
+]
+]
+---
+
+## Gardez un code beau et propre
+
+À gauche, le code n'est pas espacé. Tous les crochets sont sur une ligne, et le code paraît malpropre. Le code à droite paraît mieux organisé, non?
+.small[
+.pull-left[
+```r
+a<-4;b=3
+if(a<b){
+if(a==0)print("a zero")}else{
+if(b==0){print("b zero")}else print(b)}
+```
+]
+.pull-right[
+```r
+a <- 4
+b <- 3
+if(a < b){
+  if(a == 0) {
+    print("a zero")
+  }
+} else {
+  if(b == 0){
+    print("b zero")
+  } else {
+    print(b)
+  }
+}
+```
+]
+]
+
+---
+
+## Utilisez des fonctions pour simplifier le code
+
+Écrivez une fonction:
+1. Quand une portion du code est répété à plus de 2 reprises dans ton script;
+2. Quand seulement une partie du code change et inclut des options pour différents arguments.
+
+Ceci vous aidera à réduire le nombre d'erreurs de copier/coller, et réduira le temps passé à les corriger.
+
+---
+
+## Utilisez des fonctions pour simplifier le code
+
+Modifions l'exemple de l'**Exercice #3** et supposons que toutes les concentrations de $CO_2$ du Mississipi étaient surestimées de 20 et que celles du Québec étaient sous-estimées de 50. 
+
+.small[ .pull-left[
+ On pourrait écrire ceci:
+<br>
+```r
+for (i in 1:length(CO2[,1])) {
+  if(CO2$Type[i] == "Mississippi") {
+    CO2$conc[i] <- CO2$conc[i] - 20
+  }
+}
+for (i in 1:length(CO2[,1])) {
+  if(CO2$Type[i] == "Quebec") {
+    CO2$conc[i] <- CO2$conc[i] + 50
+  }
+}
+```
+]
+
+.pull-right[
+Ou ceci:
+```{r eval = FALSE}
+recalibrate <- function(CO2, type, bias){
+  for (i in 1:nrow(CO2)) {
+    if(CO2$Type[i] == type) {
+      CO2$conc[i] <- CO2$conc[i] + bias
+    }
+  }
+  return(CO2)
+}
+
+```
+.small[
+```{r eval = FALSE}
+newCO2 <- recalibrate(CO2, "Mississipi", -20)
+newCO2 <- recalibrate(newCO2, "Quebec", +50)
+```
+]
+]
+]
+---
+## Noms de fonctions informatifs
+
+Voici notre fonction de l'exemple précédent avec un nom vague.
+.pull-left[
+```r
+rc <- function(c, t, b) {
+  for (i in 1:nrow(c)) {
+    if(c$Type[i] == t) {
+      c$conc[i] <- c$conc[i] + b
+    }
+  }
+  return (c)
+}
+```
+]
+.pull-right[
+
+<br>
+<br>
+.center[.alert[Qu-est ce que `c` et `rc`?]]]
+
+.comment[Quand possible, évitez d'utiliser des noms de fonctions `R` et de variables qui existent déjà pour éviter la confusion et les conflits.]
+
+---
+## Utiliser des commentaires
+
+.alert[Truc final]. Ajoutez des commentaires pour décrire tout ce que votre code fait, que ce soit le but de la fonction, comment utiliser ses arguments, ou une description détaillée de la fonction étape par étape.
+
+.small[
+```r
+# Recalibre le jeu de données CO2 en modifiant la concentration de CO2
+# d'une valeur fixe selon la region
+
+# Arguments
+# CO2: the CO2 dataset
+# type: the type ("Mississippi" or "Quebec") that need to be recalibrated.
+# bias: the amount to add or remove to the concentration
+
+recalibrate <- function(CO2, type, bias) {
+  for (i in 1:nrow(CO2)) {
+    if(CO2$Type[i] == type) {
+      CO2$conc[i] <- CO2$conc[i] + bias
+    }
+  }
+  return(CO2)
+}
+```
+]
+
+---
+class: inverse, center, bottom
+
+# Merci d'avoir participé à cet atelier!
+
+![:scale 50%](images/qcbs_logo.png)
