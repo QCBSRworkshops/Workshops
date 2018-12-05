@@ -36,6 +36,9 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop05/workshop05-en/workshop05-en.html)
 
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop05/workshop05-fr/workshop05-fr.html)
+
+
 <br><br>
 
 [![Creative Common
