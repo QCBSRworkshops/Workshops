@@ -233,6 +233,25 @@ animals <- c(Paws, Scruffy, Sassy, Brigitte)
 ## Challenge 1 - Solution ![:cube]()
 
 ```{r}
+if(Paws == 'cat') {
+  print("meow")
+}
+```
+```{r}
+x = Paws
+# x = Scruffy
+if(x == 'cat') {
+  print("meow")
+} else {
+  print("meow")
+}
+```
+
+---
+## Challenge 1 - Solution ![:cube]()
+
+
+```{r}
 animals <- c(Paws, Scruffy, Sassy, Brigitte)
 
 for(val in 1:4) {
@@ -243,6 +262,12 @@ for(val in 1:4) {
   }else print("what?")
 }
 ```
+
+
+```{r}
+ifelse(animals[animals != "hen"] == "dog", "woof", "meow")
+```
+
 
 ---
 ## Beware of R’s expression parsing!
@@ -594,6 +619,8 @@ You have realized that your tool for measuring uptake was not calibrated properl
 1. Use a loop to correct these measurements for all Quebec sites.
 
 2. Use a vectorisation-based method to calculate the mean CO2-uptake in both areas.
+
+For this, you will have to load the CO2 dataset using `data(CO2)`, and then use the object `CO2`. 
 
 ---
 
