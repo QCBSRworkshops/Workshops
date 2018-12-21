@@ -5,7 +5,7 @@ wget https://github.com/QCBSRworkshops/templateWorkshops/archive/master.zip
 unzip master
 
 
-for i in $(seq 5)
+for i in $(seq 10)
 do
   num=$(printf "%02d" $i)
   # files in folder
