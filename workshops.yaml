@@ -15,12 +15,14 @@
 
 - name: "Workshop 05 - Programming in R"
   link_en: "workshop05/workshop05-en/workshop05-en.html"
+  link_fr: "workshop05/workshop05-fr/workshop05-fr.html"
 
 - name: "Workshop 06 - Linear mixed models"
-  link_fr: "workshop06/workshop06-en/workshop06-fr.html"
+  link_en: "workshop06/workshop06-en/workshop06-en.html"
+  link_fr: "workshop06/workshop06-fr/workshop06-fr.html"
 
 - name: "Workshop 08 - Generalized additive models"
   link_en: "workshop08/workshop08-en/workshop08-en.html"
 
 - name: "Workshop 10 - GAdvanced multivariate analyses"
-  link_en: "workshop10/workshop10-en/workshop10-en.html"  
+  link_en: "workshop10/workshop10-en/workshop10-en.html"
