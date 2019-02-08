@@ -48,7 +48,7 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop08/workshop08-en/workshop08-en.html)
 
-### Workshop 10 - GAdvanced multivariate analyses
+### Workshop 10 - Advanced multivariate analyses
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop10/workshop10-en/workshop10-en.html)
 
