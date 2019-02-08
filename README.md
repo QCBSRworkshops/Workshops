@@ -38,6 +38,19 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [French](https://qcbsrworkshops.github.io/Workshops/workshop05/workshop05-fr/workshop05-fr.html)
 
+### Workshop 06 - Linear mixed models
+
+#### [English](https://qcbsrworkshops.github.io/Workshops/workshop06/workshop06-en/workshop06-en.html)
+
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop06/workshop06-fr/workshop06-fr.html)
+
+### Workshop 08 - Generalized additive models
+
+#### [English](https://qcbsrworkshops.github.io/Workshops/workshop08/workshop08-en/workshop08-en.html)
+
+### Workshop 10 - GAdvanced multivariate analyses
+
+#### [English](https://qcbsrworkshops.github.io/Workshops/workshop10/workshop10-en/workshop10-en.html)
 
 <br><br>
 
