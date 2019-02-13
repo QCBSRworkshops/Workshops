@@ -24,5 +24,8 @@
 - name: "Workshop 08 - Generalized additive models"
   link_en: "workshop08/workshop08-en/workshop08-en.html"
 
+- name: "Workshop 09 - Multivariate analyses"
+  link_en: "workshop09/workshop09-en/workshop09-en.html"  
+
 - name: "Workshop 10 - Advanced multivariate analyses"
   link_en: "workshop10/workshop10-en/workshop10-en.html"
