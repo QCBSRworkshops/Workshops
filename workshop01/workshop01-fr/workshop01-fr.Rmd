@@ -34,6 +34,8 @@ if (!require(DiagrammeR)) install.packages("DiagrammeR")
 library(DiagrammeR)
 if (!require(widgetframe)) install.packages("widgetframe")
 library(widgetframe)
+if (!require(ggplot2)) install.packages("ggplot2")
+library(ggplot2)
 ```
 
 
@@ -1359,17 +1361,22 @@ Ouvrez-les directement depuis **Rstudio**: Help ![:faic](long-arrow-right) Cheat
 ---
 ## Quelques sites inteRnets utiles
 
-![:scale 15%](http://r4ds.had.co.nz/cover.png) [![:faic](external-link)](http://r4ds.had.co.nz/index.html)
+.pull-left[
+![:scale 50%](http://r4ds.had.co.nz/cover.png) [![:faic](external-link)](http://r4ds.had.co.nz/index.html)
 
+**An Introduction to R** [![:faic](external-link)](https://cran.r-project.org/doc/manuals/r-release/R-intro.html)
+
+**R Reference card 2.0** [![:faic](external-link)](http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf)
+
+]
+
+.pull-right[
 ![](http://www.lapk.org/images/QuickR.png) [![:faic](external-link)](http://statmethods.net/)
 
-![:scale 15%](https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gradient.png) Documentation [![:faic](external-link)](https://support.rstudio.com/hc/en-us/categories/200035113-Documentation)
+![:scale 50%](https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gradient.png) [![:faic](external-link)](https://support.rstudio.com/hc/en-us/categories/200035113-Documentation)
 
-An Introduction to R [![:faic](external-link)](https://cran.r-project.org/doc/manuals/r-release/R-intro.html)
-
-R Reference card 2.0 [![:faic](external-link)](http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf)
-
-Cookbook for R [![:faic](external-link)](http://cookbook-r.com/)
+**Cookbook for R** [![:faic](external-link)](http://cookbook-r.com/)
+]
 
 
 
@@ -1380,4 +1387,4 @@ class: inverse, center, bottom
 
 # Merci d'avoir participé!
 
-![:scale 50%](images/QCBS_logo.png)
+![:scale 50%](images/qcbs_logo.png)
