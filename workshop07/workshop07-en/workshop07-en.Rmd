@@ -27,322 +27,416 @@ knitr::opts_chunk$set(
 ```
 
 
-## R Markdown
+## Outline
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. 
-
----
-## Theme Xaringan
-
-Install the **xaringan** package from Github:
-
-```{r, eval = F}
-devtools::install_github("yihui/xaringan")
-```
----
-## Setup for your presentation
-
-```{r setup2, echo = T}
-knitr::opts_chunk$set(
-  comment = "#",
-  collapse = TRUE,
-  warning = FALSE,
-  message = FALSE,
-  fig.width=5, fig.height=5,
-  fig.align = 'center'
-)
-```
-
-```{r, echo = T}
-options(repos=structure(c(CRAN="http://cran.r-project.org")))
-```
+1. Why be normal? .small[(*Your data is ok; it's the model that's wrong*)]
+2. GLM with binary data
+3. GLM with count data
+4. GLMMs
 
 ---
 class: inverse, center, middle
 
-# Section slide
+# Why be normal?
 
-## with a nice subtitle
-
----
-
-# Headers (level 1)
-
-## Header 2
-
-### Header 3
-
-#### Header 4
-
-##### Header 5
-
-###### Header 6
-
-Change slide using 3 dashes `---` (no space after the dashes)
+## Your data is ok;
+## it's the model that's wrong
 
 ---
-## Modifying text
+## Limitations of linear (mixed) models
 
-#### Text size
+Load dataset and fit a linear model (`lm()`):
 
-- normal size ( $\LaTeX$-friendly terms)
-- `.huge[huge]` &nbsp; .huge[huge]
-- `.large[large]` &nbsp; .large[large]
-- `.small[small]` &nbsp; .small[small]
-- `.tiny[tiny]` &nbsp; .small[tiny]
-- `*italic*` &nbsp; *italic*
-- `**bold**` &nbsp; **bold**
+```{r,echo=FALSE}
+  mites <- read.csv('data/mites.csv')
+```
 
+```{r,eval=F}
+  # make sure you're in the right working directory
+  mites <- read.csv('mites.csv')
+  head(mites)
+  str(mites)
+```
 
----
-## Modifying text
+The dataset that you just loaded is a subset of the 'Oribatid mite dataset'
 
-#### Special class
+.small[
+> 70 moss and mite samples
 
-- `.alert[alert]` .alert[alert]
-- `.comment[comment]` .comment[comment]
-
-#### Use remarkjs's macros
-
-- `![:scale 40%](path/to/img.png)` to scale an image
-- `![:faic](arrow-right)` &nbsp; ![:faic](arrow-right)
-- `![:faic](arrow-left)` &nbsp; ![:faic](arrow-left)
-- See [FontAwesome cheatsheet](https://fontawesome.com/v4.7.0/cheatsheet/)
-
----
-## Subsection Slide with bullet points
-
-* a picture
-* says more
-* than a thousand words
-
-or
-
-- a picture
-- says more
-- than a thousand words
-
----
-## Vertical Slide with bullet points
-
-- Level 1 item
-  * Level 2 item
-  * Level 2 item
-- Level 1 item
-
-
----
-## Subsection Slide with ordered items
-
-1. item 1
-1. item 2
-
-or
-
-1. item 1
-2. item 2
-
----
-## Vertical Slide with incremental bullets
-
-The easiest way to build incremental slides is...
---
-to use two dashes `--` to separate content on a slide.
-
---
-
-You can divide a slide in _any way you want_.
-
---
-
-- Bullet 1
-
---
-
-- Bullet 2
-
---
-
-- Bullet 3
-
----
-## Vertical Slide with Two Columns
-
-.pull-left[
-- You can place 2 figures on a slide
-- Or 2 columns of text
-- Using `.pull-left[]` for the first column
+> 5 environmental measurements and abundance of the mite *Galumna sp.*
 ]
 
-
-.pull-right[
-- You can place 2 figures on a slide
-- Or 2 columns of text
-- Using `.pull-right[]` for the second column
-]
+**Goal**: Model the abundance (`abund`), occurrence (`pa`), and proportion (`prop`) of Galumna as a function of the 5 environmental variables.
 
 ---
-## Table
+## Exploring relationships
 
-Colons can be used to align columns.
-
-<br>
-
-| Tables        | Are           | Cool          |
-| ------------- |:-------------:| -------------:|
-| right-aligned | centered      | right-aligned |
-| stuff         | stuff         | 123           |
-| stuff         | stuff         | 456           |
+Can we see any relationship(s) between Galumna and the 5 environmental variables?
 
 ---
+## Exploring relationships
 
-## Text alignment
-
-.left[
-`.left[Left-aligned text]`
-]
-
-.center[
-`.center[Centered text]`
-]
-
-.right[
-`.right[Right-aligned text]`
-]
-
----
-class: inverse, center, middle
-
-background-image: url(https://tailandfur.com//wp-content/uploads/2014/09/beautiful-and-cute-animals-wallpaper-9.jpg)
-background-size: contain
-
-# Include images
-
-
----
-# Images
-
-This image is centered and scaled to 60% of its real size, using: 
-
-`.center[ ![:scale 60%](url link to zebra image) ]`
-
-or 
-
-`.center[ ![:scale 60%](path/to/image/folder) ]`
-
-.center[
-![:scale 60%](https://tailandfur.com//wp-content/uploads/2014/09/beautiful-and-cute-animals-wallpaper-59.jpg)
-]
-
----
-## Images and text
+.small[Can we see any relationship(s) between Galumna and the 5 environmental variables?]
 
 .pull-left2[
-Here I used `.pull-left2[]` and `.pull-right2[]` to create a 2 column slide, where the left column is larger than the right column.
+```{r,echo = -1}
+  par(mypar)
+  plot(mites)
+```
 ]
-
 .pull-right2[
-Beautiful picture
-
-![](https://tailandfur.com//wp-content/uploads/2014/09/beautiful-and-cute-animals-wallpaper-57.jpg)
+<br><br><br><br><br>
+`Galumna` vs `WatrCont`?!
 ]
 
 ---
-class: inverse, center, middle
+## Exploring relationships
 
-# Use R!
+A negative relationship between `Galumna` and water `content`?
 
-## Few examples
+```{r,fig.width=12,fig.height=4.5,echo=-1}
+  par(mypar)
+  par(mfrow = c(1, 3), cex = 1.4)
+  plot(Galumna ~ WatrCont, data = mites, xlab = 'Water content', ylab='Abundance')
+  boxplot(WatrCont ~ pa, data = mites, xlab='Presence/Absence', ylab = 'Water content')
+  plot(prop ~ WatrCont, data = mites, xlab = 'Water content', ylab='Proportion')
+```
 
 ---
-## Code chunk
+## Testing linearity
 
-You can embed an R code chunk like this:
+Fit linear models to test whether `abund`, `pa`, and/or `prop` varies as a function of water content.
+
+--
+```{r, eval = -c(2, 4, 6)}
+  lm.abund <- lm(Galumna ~ WatrCont, data = mites)
+  summary(lm.abund)
+  lm.pa <- lm(pa ~ WatrCont, data = mites)
+  summary(lm.pa)
+  lm.prop <- lm(prop ~ WatrCont, data = mites)
+  summary(lm.prop)
+```
+
+--
+.pull-left[
+```{r}
+summary(lm.abund)$coefficients[, 4]
+summary(lm.abund)$coefficients[, 4]
+summary(lm.abund)$coefficients[, 4]
+```
+]
+.pull-right[
+Significant relationship in all models!
+
+.alert[But...]
+]
+
+---
+## Testing linearity
+
+Significant relationship in all models! .alert[Wait a minute...]
+
+.pull-left[
+```{r,echo=-1}
+par(mypar);par(cex = 1.4)
+plot(Galumna ~ WatrCont, data = mites)
+abline(lm.abund)
+```
+]
+
+.pull-right[
+```{r,echo=-1}
+par(mypar)
+par(mfrow = c(2, 2), cex = 1.4)
+plot(lm.abund)
+```
+]
+
+---
+## Testing linearity
+
+Even worse for other models (Proportion `prop`):
+
+.pull-left[
+```{r,echo=-1}
+par(mypar);par(cex = 1.4)
+plot(prop ~ WatrCont, data = mites)
+abline(lm.prop)
+```
+]
+
+.pull-right[
+```{r,echo=-1}
+par(mypar)
+par(mfrow = c(2, 2), cex = 1.4)
+plot(lm.prop)
+```
+]
+
+---
+## Testing linearity
+
+Even worse for other models (Presence/Absence `pa`):
+
+.pull-left[
+```{r,echo=-1}
+par(mypar);par(cex = 1.4)
+plot(pa ~ WatrCont, data = mites)
+abline(lm.pa)
+```
+]
+
+.pull-right[
+```{r,echo=-1}
+par(mypar)
+par(mfrow = c(2, 2), cex = 1.4)
+plot(lm.pa)
+```
+]
+
+---
+## Model assumptions
+
+Common in Ecology that assumptions of homogeneity of variance and normality are not met.
+  - Main reason why we need GLMs!
+
+.comment[Let's revisit the assumptions of lm...]
+
+---
+## Model assumptions
+
+Equation of lm:
+
+$y = \beta_0 + \beta_1x_i + \varepsilon$
+
+where:
+
+$y_i$ = predicted value of response variable
+
+$\beta_0$ = intercept
+
+$\beta_1$ = slope
+
+$x_i$ = explanatory variable
+
+$\varepsilon_i$ = model residuals drawn from a normal distribution with a varying mean but a constant variance**
+
+.comment[.alert[**Key point!] Residuals (the distance between each observation and the regression line) can be predicted by drawing random values from a normal distribution.]
+
+---
+## Normally distributed residuals
+
+Recall: Normal distributions have two parameters, $\mu$ (mean) and $\sigma$ (variance):
+
+<br>
+.pull-left[
+Varing $\mu$, $\sigma = 5$
+
+```{r,echo=F}
+x = seq(1, 50, 0.1)
+par(mypar);par(cex = 1.4)
+plot(x, dnorm(x, mean = 20, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
+points(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, col = 2)
+points(x, dnorm(x, mean = 30, sd = 5), type = 'l', lwd = 3, col = 4)
+legend('topleft', legend = c('20', '25', '30'), lty = 1, col = 1:3, bty = 'n', lwd = 2, cex = 1.1)
+```
+]
+.pull-right[
+$\mu = 25$, varing $\sigma$
+
+```{r,echo=F}
+x = seq(1, 50, 0.1)
+par(mypar);par(cex = 1.4)
+plot(x, dnorm(x, mean = 25, sd = 5), type = 'l', lwd = 3, xlab = '# galumna', ylab = 'Probability')
+points(x, dnorm(x, mean = 25, sd = 7.5), type = 'l', lwd = 3, col = 2)
+points(x, dnorm(x, mean = 25, sd = 10), type = 'l', lwd = 3, col = 4)
+legend('topleft', legend = c('5', '7.5', '10'), lty = 1, col = 1:3, bty = 'n', lwd = 2, cex = 1.1)
+```
+]
+
+---
+## Normally distributed residuals
+
+Another way to write the lm equation is:
+
+$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$
+
+<br>
+Which literally means that $y_i$ is drawn from a normal distribution with parameters $\mu$ (which depends on $x_i$) and $\sigma$ (which has the same value for all $Y$s)
+
+<br>
+.comment[Lets predict Galumna abund as a function of water content using the `lm` we fitted earlier...]
+
+---
+## Model prediction
+
+We need regression coefficients ( $\beta$) and $\sigma$:
 
 ```{r}
-summary(cars)
+coef(lm.abund)
+summary(lm.abund)$sigma
+```
+
+What are the parameters of the normal distribution used to model $y$ when water content = 300?
+
+$y_i \sim N(\mu = \beta_0 + \beta_1 X_i, \sigma^2)$
+
+--
+
+$\mu = 3.44 + (-0.006 x 300) = 1.63$
+
+$\sigma = 1.51$
+
+---
+## Model prediction
+
+- At $x = 300$, residuals should follow a normal distribution with $\mu = 1.63$ and $\sigma^2 = 1.51$.
+
+- At $x = 400$, we get $\mu = 1.02$ and $\sigma^2 = 1.51$, etc.
+
+<br>
+Graphically, this is our model:
+
+--
+.pull-left[
+.center[
+  ![:scale 100%](images/modelPredic.png)
+]]
+--
+.pull-right[
+**Problems**:
+- $\sigma^2$ is not homogeneous, yet `lm()` forces a constant $\sigma^2$
+- Predicted values should be integers
+]
+
+---
+## Biological data & distributions
+
+Statisticians have described a multitude of distributions that correspond to different types of data
+
+A distribution provides the probability of observing each possible outcome of an experiment or survey (e.g. $abund = 8$ Galumna)
+
+Distributions can be **discrete** (only includes integers
+or **continuous** (includes fractions)
+
+All distributions have **parameters** that dictate the shape of the distribution (e.g. $\mu$ and $\sigma^2$ for the normal)
+
+---
+## Biological data & distributions
+
+Galumna abund follows a discrete distribution (can only take integer values).
+
+A useful distribution to model abundance data is the “Poisson” distribution:
+
+  - a discrete distribution with a single parameter, $\lambda$ (lambda), which defines both the mean and the variance of the distribution:
+
+```{r,echo=F,fig.width=15}
+x = seq(1, 50, 1)
+par(mypar);par(mfrow = c(1, 3), cex = 1.4)
+plot(x, dpois(x, lambda = 1), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'lambda = 1')
+plot(x, dpois(x, lambda = 10), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'lambda = 10')
+plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'lambda = 30')
 ```
 
 ---
-## Including Plots
+## Biological data & distributions
 
+Galumna seems to follow a Poisson distribution with a low value of $\lambda$:
+
+.pull-left[
 ```{r}
-plot(pressure)
+  hist(mites$Galumna)
 ```
-
-
----
-## Code chunk options
-
-- `echo`
-  - `echo = TRUE` (default) to include R source code in the output file. 
-  - `echo = FALSE` to prevent printing of the R source code. 
-  - `echo = c(2:3)` or `-1` to include only line 2 and 3 from the R source code. 
-- `eval`  
-  - `eval = TRUE` (default) to evaluate the code chunk.
-  - `eval = FALSE` to prevent evaluating the code chunk.
-  - `eval = c(2:3)` or `-1` to evaluate only line 2 and 3 from the R code.
-
-
-
----
-## Code chunk options
-
-- `fig.width`, `fig.height` to define width and height of the resulting plots
-- `fig.align` to align the resulting plots
-
-.alert[See more `knitr` options [here](https://yihui.name/knitr/options/)]
-
----
-## Including Plots
-
-With `echo = TRUE`:
-```{r, echo=T, fig.width=7, fig.height=3.5}
-par(mfrow=c(1,2), mar = c(4,4,0,1))
-plot(pressure)
-plot(cars)
+]
+.pull-right[
+```{r}
+  mean(mites$Galumna)
 ```
- 
----
-## Including Plots
+]
 
-With `echo = -1`:
-```{r, echo=-1, fig.width=7, fig.height=3.5}
-par(mfrow=c(1,2), mar = c(4,4,0,1))
-plot(pressure)
-plot(cars)
+---
+## Biological data & distributions
+
+Presence-absence takes yet another form:
+
+- only `0`s and `1`s
+- Poisson distribution would not be appropriate to model this variable
+
+```{r,fig.height=5,echo=-1}
+  par(mypar);par(cex=1.4)
+  hist(mites$pa)
 ```
 
 ---
-## Challenge slide! ![:cube]()
+## Biological data & distributions
 
-To include the rubicube in the challenge slide, you just need to type `![:cube]()` next to the slide title!
+**“Bernoulli” distribution**:
 
+- Only two possible outcomes in its range: success (`1`) or failure (`0`)
+- One parameter, $p$, the probability of success
 
----
-## Math Expressions
+<br>
+```{r,echo=-F,fig.width=12,fig.height=4}
+  par(mypar);par(mfrow = c(1, 3), cex=1.4)
+  barplot(setNames(c(.9, .1), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.1')
+  barplot(setNames(c(.5, .5), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.5')
+  barplot(setNames(c(.1, .9), c('absent (0)', 'present (1)')), ylim = c(0, 1), xlab = 'pa', ylab = 'probability', main = 'p = 0.9')
+```
 
-You can write $\LaTeX$ math expressions inside a pair of dollar signs, e.g. `$\alpha+\beta$` renders $\alpha+\beta$.
- 
-You can use the display style with a pair of double dollar signs `$$` :
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-
----
-class: inverse, center, middle
-
-# Keyboard shortcuts
+We can use the Bernouilli distribution to calculate the probability Galumna present (`1`) vs. absent (`0`)
 
 ---
-## Keyboard shortcuts
+## Biological data & distributions
 
-To see these shortcuts during a presentation, press **h** or **?**
+**Binomial distribution**: When there are multiple trials (each with a success/failure), the Bernoulli distribution expands into the binomial
+- Additional parameter, n, for number of trials
+- Predicts the probability of observing a given proportion of successes, p, out of a known total number of trials, $n$
 
-.center[![:scale 75%](images/shortcuts.png)]
+```{r,echo=F,fig.width=15}
+x = seq(1, 50, 1)
+par(mypar);par(mfrow = c(1, 3), cex = 1.4)
+plot(x, dbinom(x, size = 50, prob = 0.1), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.1 n = 50')
+plot(x, dbinom(x, size = 50, prob = 0.5), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.5 n = 50')
+plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.9 n = 50')
+```
 
+---
+## Biological data & distributions
+
+**Binomial distribution**: used to model data where the number of successes are integers and where the number of trials, n, is known.
+
+**Main difference with Poisson distribution**: the binomial has an upper limit to its range, corresponding to `n`. Consequently, it is right-skewed at low p values but left-skewed at high `p` values
+
+```{r,echo=F,fig.width=10, fig.height=5}
+x = seq(1, 50, 1)
+par(mypar);par(mfrow = c(1, 2), cex = 1.4)
+plot(x, dbinom(x, size = 50, prob = 0.9), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'p = 0.9 n = 50')
+plot(x, dpois(x, lambda = 30), type = 'h', lwd = 3, xlab = '# galumna', ylab = 'Probability', main = 'lambda = 30')
+```
+
+---
+## Biological data & distributions
+
+Getting back to our problem... can switch the distribution of error terms (εi) from normal to Poisson:
+
+$$y_i \sim Poisson(\lambda = \beta_0 + \beta_1 x_i)$$
+
+Problems solved!
+
+1. $\lambda$ varies with $x$ (water content) which means residual variance will also vary with $x$, which means that we just relaxed the homogeneity of variance assumption!
+
+2. Predicted values will now be integers instead of fractions
+
+3. The model will never predict negative values (Poisson is strictly positive)
+
+---
+## Biological data & distributions
+
+This is **almost** a Poisson GLM, which looks like this:
+
+.center[![:scale 90%](images/poisPred.png)]
+
+Probabilities (in orange) are now integers, and both the variance and the mean of the distribution decline as $\lambda$ decreases with increasing water content.
 
 ---
 class: inverse, center, bottom
