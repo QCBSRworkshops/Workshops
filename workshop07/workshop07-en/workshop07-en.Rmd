@@ -471,6 +471,450 @@ This is **almost** a Poisson GLM, which looks like this:
 
 Probabilities (in orange) are now integers, and both the variance and the mean of the distribution decline as $\lambda$ decreases with increasing water content.
 
+
+---
+class: inverse, center, middle
+
+# GLM with binary data
+
+---
+## Binary variables
+
+Common response variable in ecological datasets is the binary variable: we observe a phenomenon X or its “absence”
+
+- Presence/Absence of a species
+- Presence/Absence of a disease
+- Success/Failure to observe behaviour
+- Survival/Death of organisms
+
+Wish to determine if $P/A \sim Environment$ .comment[*]
+
+.comment[Called a logistic regression or logit model]
+
+---
+## Binary variables
+
+In `R`, binary variables are coded with `1` and `0`:
+
+```{r,echo=F}
+Site <- LETTERS[1:6]
+Presence <- c(1, 0, 1, 1, 0, 1)
+dat = data.frame(Site, Presence)
+```
+
+<br>
+
+.pull-left[
+.right[
+```{r, echo=F}
+print(dat)
+```
+]]
+.pull-right[
+ <br>
+
+ 1 = Presence
+
+ <br>
+
+ 0 = Absence
+]
+
+---
+## Binary variables
+
+Clearly not normally distributed!
+
+<br>
+
+```{r,echo=F,fig.width=7, fig.height=6}
+par(mypar);par(cex = 1.4)
+hist(Presence)
+```
+
+---
+## Binary variables
+
+Expected values can be out of the `[0,1]` range with `lm()`:
+
+<br>
+
+```{r,echo=F,fig.width=7.5, fig.height=5.6}
+Pres <- c(rep(1, 40), rep(0, 40))
+rnor <- function(x) rnorm(1, mean = ifelse(x == 1, 12.5, 7.5), sd = 2)
+ExpVar <- sapply(Pres, rnor)
+par(mypar);par(cex = 1.4)
+plot(ExpVar, Pres, ylim = c(-.5, 1.5), xlab = 'Explanatory variable', ylab = 'Presence', main = 'Binary variables and fitted values with lm()', pch = 16)
+abline(lm(Pres ~ ExpVar), col = 'orange', lwd = 2)
+mtext(expression(symbol("\255")), at = 1.25, side = 4, line = 0.1, cex = 6, col = 'blue')
+mtext(expression(symbol("\256")), at = 3, side = 1, line = -2.2, cex = 6, col = 'blue')
+```
+
+---
+## Probability distribution
+
+The Bernoulli distribution is well suited for binary response variables
+
+<br>
+
+.pull-left[.right[
+
+$E(Y) = p$
+
+<br>
+
+$Var(Y) = p \times (1 - p)$
+
+]]
+.pull-right[
+
+![:faic](arrow-right) **Mean of distribution** .small[Probability $p$ of observing an outcome]
+
+![:faic](arrow-right) **Variance of distribution** .small[Variance decreases as $p$ is close to `0` or `1`]
+]
+
+---
+## Logistic regression
+
+The `glm()` function!
+
+<br>
+
+`logit.reg <- glm(formula, data, family)`
+
+<br>
+
+To move away from traditional linear models, need to specify two things (`family`):
+
+1. probability distribution
+
+**AND**
+
+2. a link function
+
+---
+## The Link Function
+
+For a simple linear model of a normally distributed continuous response variable, the equation for the expected values is:
+
+<br>
+
+$$\mu = x\beta$$
+
+where
+
+- $\mu$ is the expected value of the response variable
+- $x$ is the model matrix (*i.e.* your data)
+- $\beta$ is the vector of estimated parameters (*i.e.* the intercept & slope)
+
+<br>
+
+$x\beta$ is called the **linear predictor**
+
+---
+## The Link Function
+
+$\mu = x\beta$ is only true for normally distributed data
+
+If this is not the case, must use a transformation on the expected values $\mu$
+
+$$g(\mu) = x\beta$$
+
+where $g(\mu)$ is the link function
+
+<br>
+
+This allows us to relax the normality assumption
+
+---
+## The Link Function
+
+For binary data, the link function is called the **logit**:
+
+<br>
+
+$$g(\mu) = log\frac{\mu}{1-\mu}$$
+
+$\mu =$ expected values (probability that $Y = 1$)
+
+<br>
+
+- Get the odds ( $\frac{\mu}{1-\mu}$)
+- log-transform them
+
+---
+## The Link Function
+
+$$g(\mu) = log\frac{\mu}{1-\mu}$$
+
+- Get the odds ( $\frac{\mu}{1-\mu}$)
+- log-transform them
+
+<br>
+The odds puts our expected values on a `0` to `+Inf` scale
+
+The log transformation puts our expected values on a `-Inf` to `+Inf`
+
+![:faic](arrow-right) The expected values can now be **linearly** related to the linear predictor
+
+---
+## Exercise 1
+
+Build a logistic regression model using the mites data
+
+```{r,eval=F}
+#setwd('...')
+mites <- read.csv("mites.csv", header = TRUE)
+str(mites)
+
+```{r,echo=F}
+mites <- read.csv("data/mites.csv", header = TRUE)
+str(mites)
+```
+
+---
+## Exercise 1
+
+Build a model of the presence of Galumna sp. as a function of water content and topography
+
+```{r}
+logit.reg <- glm(pa ~ WatrCont + Topo, data=mites,
+family = binomial(link = "logit"))
+```
+```{r,eval=F}
+summary(logit.reg)
+```
+
+---
+## Exercise 1
+
+.small[
+```{r}
+summary(logit.reg)
+```
+]
+
+---
+## Challenge 1 ![:cube]()
+
+Using the 'bacteria' dataset, model the presence of *H. influenzae* as a function of treatment and week of test.
+
+Start with a full model and reduce it to the most parsimonious model.
+
+```{r}
+#install.packages("MASS")
+library(MASS)
+data(bacteria)
+str(bacteria)
+```
+
+---
+## Solution ![:cube]()
+
+```{r}
+model.bact1 <- glm(y ~ trt * week, data = bacteria, family = binomial)
+```
+
+```{r}
+model.bact2 <- glm(y ~ trt + week, data = bacteria, family = binomial)
+```
+
+```{r}
+model.bact3 <- glm(y ~ week, data = bacteria, family = binomial)
+```
+
+```{r}
+anova(model.bact1, model.bact2, model.bact3, test = "LRT")
+```
+
+---
+## Interpreting the output
+
+Let's go back to the summary of our `logit.reg` model to see the coefficients:
+
+```{r}
+summary(logit.reg)$coefficients
+```
+
+The output indicates that both water content and topography are significant
+
+.comment[But how do we interpret the slope coefficients?]
+
+---
+## Interpreting the output
+
+Remember we used a logit transformation on the expected values!
+
+To properly interpret the regression parameters, we have to use a 'reverse' function:
+
+<br>
+The natural exponential function to obtain the odds: $e^x$
+
+The inverse logit function to obtain the probabilities:
+
+$$logit^{-1} = \frac{1}{1 + \frac{1}{e^x}}$$
+
+---
+## Interpreting the output
+
+On the odds scale for water content:
+
+```{r}
+exp(logit.reg$coefficient[2])
+```
+
+On the probability scale for water content:
+
+```{r}
+1 / (1 + 1/exp(logit.reg$coefficient[2]))
+```
+
+---
+## Predictive Power and goodness of fit
+
+Get the pseudo-R², the analogue of the $R^2$ for models fitted by maximum likelihood:
+
+$$\text{pseudo-R}^2 = \frac{\text{null deviance - residual deviance}}{\text{null deviance}}$$
+
+<br>
+
+$\text{pseudo-R}^2 = \text{variance explained by the model}$
+
+---
+## Predictive Power and goodness of fit
+
+Comparing deviance of your model (residual deviance) to the deviance of a null model (null deviance)
+
+The **null model** is a model without explanatory variables
+
+```R
+null.model <- glm(Response.variable ~ 1, family = binomial)
+```
+
+---
+## Predictive Power and goodness of fit
+
+In R, we can extract the residual and null deviances directly from the glm object:
+
+```{r}
+objects(logit.reg)
+```
+
+```{r}
+pseudoR2 <- (logit.reg$null.deviance - logit.reg$deviance) / logit.reg$null.deviance
+pseudoR2
+```
+
+.comment[Hence, the model explains 46.6% of the variability in the data]
+
+---
+## Predictive Power and goodness of fit
+
+New statistic - **coefficient of discrimination (D)** evaluates the predictive power of logistic regression
+
+- Measure of how well logistic regression classifies an outcome as a success or a failure
+
+To assess goodness of fit, diagnostic plots are not useful, instead must use **Hosmer-Lemeshow test**:
+
+- Compare observed and expected number of outcomes
+- Similar to a Chi square test
+
+---
+## Exercise 2
+
+In R these tests are available in the `binomTools` package
+
+Compute the coefficient of discrimination D
+
+```{r}
+fit <- binomTools::Rsq(object = logit.reg)
+fit
+```
+
+---
+#### Exercise 2: Perform a Hosmer-Lemeshow test .comment[*]
+
+.small[
+```{r}
+binomTools::HLtest(binomTools::Rsq(model.bact2))
+```
+]
+
+.comment[A non significant value indicates an adequate fit!]
+
+---
+## Challenge 1 ![:cube]()
+
+1. Using the model created with bacteria dataset, assess goodness of fit and predictive power.
+
+2. Think how predictive power could be improved for this model.
+
+---
+## Solution ![:cube]()
+
+1:
+```{r,eval=F}
+null.d <- model.bact2$null.deviance
+resid.d <- model.bact2$deviance
+bact.pseudoR2 <- (null.d -resid.d) / null.d
+HLtest(Rsq(model.bact2)
+```
+
+2: Adding informative explanatory variables could increase the explanatory power of the model
+
+---
+## Proportion data and GLM
+
+Sometimes, proportion data is more similar to logistic regression than you think...
+
+If we measure the number of occurrences and we know the total sample size, it is not count data!
+
+Suppose we measure disease prevalence in ten deer populations on 10 deer individuals per population:
+
+
+.pull-left[
+
+$$\frac{x\,\, \text{infected deer}}{10\,\,\text{deer}}$$
+
+]
+
+.pull-right[
+![:faic](arrow-right) always bound between `0` and `1`!
+]
+
+---
+## Exercise 3
+
+In R, we have to specify the number of times something happened and the number of times something did not happen:
+
+```{r}
+prop.reg <- glm(cbind(Galumna, totalabund - Galumna) ~ Topo + WatrCont, data = mites, family = binomial)
+```
+
+```r
+summary(prop.reg)
+```
+
+---
+## Exercise 3
+
+.small[
+```{r}
+summary(prop.reg)
+```
+]
+
+---
+## Exercise 3
+
+We can also code the model directly with proportions :
+
+```{r}
+prop.reg2 <- glm(prop ~ Topo + WatrCont, data = mites,
+                 family = binomial, weights = totalabund)
+```
+
+
 ---
 class: inverse, center, bottom
 
