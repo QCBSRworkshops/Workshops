@@ -916,6 +916,470 @@ prop.reg2 <- glm(prop ~ Topo + WatrCont, data = mites,
 
 
 ---
+class: inverse, center, middle
+
+# GLM with count data
+
+---
+## Modeling count data
+
+.large[What is count data?]
+
+Import the `faramea.csv` into R
+
+```{r,echo=F}
+faramea <- read.csv('data/faramea.csv', header = TRUE)
+```
+```{r,eval=F}
+faramea <- read.csv('faramea.csv', header = TRUE)
+```
+
+The number of trees of the species *Faramea occidentalis* was assessed in 43 quadrats in Barro Colorado Island (Panama). For each quadrat, environmental characteristics were also recorded such as elevation or precipitation.
+
+Let's investigate the histogram of the number of *Faramea occidentalis*
+
+---
+## Modeling count data
+
+.large[What is count data?]
+
+```{r, echo=F,fig.height=4.6}
+par(mypar);par(cex = 1.4)
+hist(faramea$Faramea.occidentalis, breaks = 30, col = 'gray', xlab = 'Number of F. occidentalis', ylab = 'Frequency', main = '')
+```
+
+Count data are characterized by:
+
+- positive values: you do not count -7 individuals
+- integer values: you do not count 7.56 individuals
+- exhibits larger variance for large values
+
+---
+## Modeling count data
+
+.large[How to model count data?]
+
+Does elevation influence the abundance of *F. occidentalis*?
+
+```{r, echo=F,fig.height=4.6}
+par(mypar);par(cex = 1.4)
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
+```
+
+the **Poisson distribution** seems to be the perfect choice to model this data, hence **Poisson GLMs** are usually the good way to start modeling count data.
+
+---
+## The Poisson distribution
+
+The Poisson distribution specifies the probability of a discrete random variable Y and is given by:
+
+$$f(y, \,\mu)\, =\, Pr(Y = y)\, =\, \frac{\mu^y \times e^{-\mu}}{y!}$$
+
+$$E(Y)\, =\, Var(Y)\, =\, \mu$$
+
+**Properties**:
+
+- $\mu$ is the parameter of the Poisson distribution
+- specifies the probably only for integer values
+- probability for negative values is null ( $P(Y<0) = 0$)
+- mean = variance (allows for heterogeneity)
+
+---
+## Poisson GLM behind the scenes
+
+A Poisson GLM will model the value of µ as a function of different explanatory variables
+
+<br>
+
+.center[**Three steps**]
+
+**Step 1.** We assume Yi follows a Poisson distribution with mean and variance $\mu_i$
+
+$$Y_i = Poisson(\mu_i)$$
+
+$$E(Y_i) = Var(Y_i) = \mu_i$$
+
+$$f(y_i, \, \mu_i) = \frac{\mu^{y_i}_i \times e^{-\mu_i}}{y!}$$
+
+$\mu_i$ corresponds to the expected number of individuals
+
+---
+## Poisson GLM behind the scenes
+
+**Step 2.** We specify the systematic part of the model just as in a linear model
+Interpreting the output
+
+$$\underbrace{\alpha}_\text{One intercept} + \underbrace{\beta}_\text{slope of 'Elevation'} \times \text{Elevation}_i$$
+
+**Step 3.** The link between the mean of $Y_i$ and the systematic part is a logarithmic
+
+$$log(\mu_i) = \alpha + \beta \times \text{Elevation}_i$$
+
+.center[or]
+
+$$\mu_i = e^{ \alpha + \beta \times \text{Elevation}_i}$$
+
+---
+## Fitting a Poisson GLM in R
+
+The function `glm()` allows you to specify a Poisson GLM
+
+```{r}
+glm.poisson = glm(Faramea.occidentalis~Elevation, data=faramea, family=poisson)
+```
+
+`family` argument specify the distribution and link function
+
+<br>
+
+As with `lm()` you can access the outputs of the model using the function `summary()`
+
+```{r,eval=F}
+summary(glm.poisson)
+```
+
+---
+## Model summary
+
+.pull-left2[
+.small[
+```{r}
+summary(glm.poisson)
+```
+]]
+
+.pull-right2[
+Estimates:
+
+Intercept = $\alpha$
+
+Elevation = $\beta$
+
+]
+
+--
+
+.pull-right2[
+<br>
+What about `Null deviance` and `Residual deviance`?!
+]
+
+
+---
+## Parameter estimates
+
+In our model the unknown parameters are the intercept ( $\alpha$) and the slope of elevation ( $\beta$)
+
+
+$$log(\mu_i) = 1.769 - 0.0027 \times \text{Elevation}_i$$
+
+.center[or]
+
+$$\mu_i = e^{1.769 - 0.0027 \times \text{Elevation}_i}$$
+
+
+---
+## The deviance
+
+Remember that to estimate the unknown parameters maximum likelihood estimation is used
+
+The residual deviance is defined as twice the difference between the log likelihood of a model that provides a perfect fit and the log likelihood of our model
+
+$$\text{Res dev} = 2 \, log(L(y;\,y)) - 2 \, log(L(y;\, \mu))$$
+
+In a Poisson GLM, the residual deviance should equal the residual degrees of freedoms
+
+.center[.alert[388.12 >> 41]]
+
+
+---
+## Overdispersion
+
+When the residual deviance is higher than the residual degrees of freedom we say that the model is **overdispersed**
+
+$$\phi \, = \, \frac{\text{Residual deviance}}{\text{Residual degrees of freedom}}$$
+
+Occurs when the variance in the data is even higher than the mean, hence the Poisson distribution is not the best choice (many zeros, many very high values, missing covariates, etc)
+
+.center[.large[**Solutions**]]
+
+.pull-left[
+1: Correct for overdispersion using **quasi-Poisson GLM**
+]
+
+.pull-right[
+2: Choose another distribution: **the negative binomial**
+]
+
+---
+## Quasi-Poisson GLM
+
+The variance of the distribution will account for **overdispersion**:
+
+$$E(Y_i) = \mu_i$$
+
+$$Var(Y_I) = \phi \times \mu_i$$
+
+the **systematic part** and the **link function** remain the same
+
+$phi$ is the dispersion parameter. It will be estimated prior to estimate parameters. Correcting for overdispersion will not affect parameter estimates but will affect their **significance**. Indeed, the standard errors of the parameters are multiplied by $\sqrt{\phi}$
+
+.alert[Some marginally significant p-values may no longer hold!]
+
+---
+## Fitting a quasi-Poisson GLM in R
+
+Create a new GLM using the 'quasipoisson' family or update the previous one
+
+```{r}
+glm.quasipoisson = glm(Faramea.occidentalis ~ Elevation, data = faramea,
+                       family=quasipoisson)
+glm.quasipoisson = update(glm.poisson, family = quasipoisson)
+```
+
+---
+## Fitting a quasi-Poisson GLM in R
+
+.pull-left2[
+.small[
+```{r}
+summary(glm.quasipoisson)
+```
+]]
+.pull-right2[
+**Same estimates but**
+
+.small[The standard errors of the parameters are multiplied by]
+
+$$\sqrt{\phi} = 4$$
+
+`0.0006436 * 4 = 0.00257`
+
+<- $\phi$
+
+<br>
+
+<- .small[AIC is not defined]
+]
+
+---
+## Fitting a quasi-Poisson GLM in R
+
+Try also deviance analysis to test for the effect of Elevation
+
+```{r}
+null.model <- glm(Faramea.occidentalis ~ 1, data = faramea,
+                  family = quasipoisson)
+anova(null.model, glm.quasipoisson, test = "Chisq")
+```
+
+---
+## Dispersion parameter
+
+.center[![:scale 80%](images/dispParam.png)]
+
+---
+## Negative binomial GLM
+
+Negative binomial GLMs are favor when overdispersion is high
+
+- It has **two parameters** $\mu$ and $k$. $k$ controls for the dispersion parameter (smaller $k$ indicates higher dispersion)
+- It corresponds to a combination of two distributions (**Poisson** and **gamma**)
+- It assumes that the $Y_i$ are Poisson distributed with the mean $\mu$ assumed to follow a gamma distribution!
+
+$$E(Y_i) = \mu_i$$
+
+$$Var(Y_i) = \mu_i + \frac{\mu^2_i}{k}$$
+
+
+---
+## Fitting a negative binomial in R
+
+NB is not in the `glm()` function so you need to install and charge the `MASS` package
+
+```r
+install.packages('MASS')
+```
+
+```{r}
+glm.negbin = glm.nb(Faramea.occidentalis ~ Elevation, data = faramea)
+```
+
+```r
+summary(glm.negbin)
+```
+
+---
+
+.pull-left2[
+.small[
+```{r,echo=-1}
+summary(glm.negbin)
+```
+]]
+.pull-right2[
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+`theta` $= k$
+]
+
+---
+## Plotting the final GLM model
+
+**Step 1** Plot the data and the use estimates of the parameters to draw model line
+
+$$\mu_i = e^{2.369 - 0.007 \times Elevation_i}$$
+
+Use `summary()` to get the parameters
+
+```r
+summary(glm.negbin)$coefficients[1, 1]
+summary(glm.negbin)$coefficients[2, 1]
+```
+
+**Step 2** Use the standard errors to build the confidence envelope
+
+```r
+summary(glm.negbin)$coefficients[1, 2]
+summary(glm.negbin)$coefficients[2, 2]
+```
+
+$$\text{Upper limit} = e^{[\alpha - 1.96 \times SE_{\alpha}] + [\beta - 1.96 \times SE_{\beta}] \times \text{Elevation}_i}$$
+
+$$\text{Upper limit} = e^{[\alpha + 1.96 \times SE_{\alpha}] + [\beta + 1.96 \times SE_{\beta}] \times \text{Elevation}_i}$$
+
+---
+.small[
+```{r,eval=F}
+pp <- predict(glm.negbin, newdata = data.frame(Elevation = 1:800), se.fit = TRUE)
+linkinv <- family(glm.negbin)$linkinv ## inverse-link function
+pframe$pred0 <- pp$fit
+pframe$pred <- linkinv(pp$fit)
+sc <- abs(qnorm((1-0.95)/2))  ## Normal approx. to likelihood
+pframe <- transform(pframe, lwr = linkinv(pred0-sc*pp$se.fit), upr = linkinv(pred0+sc*pp$se.fit))
+
+plot(faramea$Elevation, faramea$Faramea.occidentalis, ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
+lines(pframe$pred, lwd = 2)
+lines(pframe$upr, col = 2, lty = 3, lwd = 2)
+lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
+```
+]
+
+```{r,echo=F, fig.height=5}
+pframe <- data.frame(Elevation = 1:800)
+pp <- predict(glm.negbin, newdata = pframe, se.fit = TRUE)
+linkinv <- family(glm.negbin)$linkinv ## inverse-link function
+
+pframe$pred0 <- pp$fit
+pframe$pred <- linkinv(pp$fit)
+alpha <- 0.95
+sc <- abs(qnorm((1-alpha)/2))  ## Normal approx. to likelihood
+alpha2 <- 0.5
+pframe <- transform(pframe,
+                    lwr=linkinv(pred0-sc*pp$se.fit),
+                    upr=linkinv(pred0+sc*pp$se.fit))
+
+par(mypar);par(cex = 1.4)
+plot(faramea$Elevation, faramea$Faramea.occidentalis,
+      ylab = 'Number of F. occidentalis', xlab = 'Elevation(m)')
+lines(pframe$pred, lwd = 2)
+lines(pframe$upr, col = 2, lty = 3, lwd = 2)
+lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
+```
+
+---
+## Challenge 3 ![:cube]()
+
+Use the `mites` dataset! Model the abundance of the species Galumna as a function of the substrate characteristics (water content `WatrCont` and density `SubsDens`)
+
+- Do you need to account for overdispersion?
+- Which covariates have a significant effect?
+- Select the best model!
+
+```{r,echo=F}
+mites <- read.csv("data/mites.csv", header = TRUE)
+```
+```{r,eval=F}
+mites <- read.csv("mites.csv", header = TRUE)
+```
+
+---
+## Challenge 3: tips ![:cube]()
+
+Drop each term in turn and compare the full model with a nested model using the command:
+
+```r
+drop1(MyGLM, test = "Chi")
+```
+
+Specify manually a nested model, call it for example MyGLM2, and use the command:
+
+```r
+anova(MyGLM, MyGLM2, test = "Chi")
+```
+
+---
+## Challenge 3: solution ![:cube]()
+
+.small[
+```{r}
+# Poisson GLM
+glm.p = glm(Galumna~WatrCont+SubsDens, data=mites, family=poisson)
+# quasi-Poisson GLM
+glm.qp = update(glm.p,family=quasipoisson)
+# model selection
+drop1(glm.qp, test = "Chi")
+```
+```r
+# or
+glm.qp2 = glm(Galumna~WatrCont, data=mites, family=quasipoisson)
+anova(glm.qp2, glm.qp, test="Chisq")
+```
+]
+
+
+---
+## Challenge 3: solution ![:cube]()
+
+<br>
+
+.center[
+```{r,echo=F, fig.height=5,fig.width=6}
+glm.qp = glm(Galumna~WatrCont, data=mites, family=poisson)
+glm.qp2 = update(glm.qp, family=quasipoisson)
+pframe <- data.frame(WatrCont = 100:850)
+pp <- predict(glm.qp2, newdata = pframe, se.fit = TRUE)
+linkinv <- family(glm.qp2)$linkinv ## inverse-link function
+
+pframe$pred0 <- pp$fit
+pframe$pred <- linkinv(pp$fit)
+alpha <- 0.95
+sc <- abs(qnorm((1-alpha)/2))  ## Normal approx. to likelihood
+alpha2 <- 0.5
+pframe <- transform(pframe,
+                    lwr=linkinv(pred0-sc*pp$se.fit),
+                    upr=linkinv(pred0+sc*pp$se.fit))
+
+par(mypar);par(cex = 1.4)
+plot(mites$WatrCont, mites$Galumna,
+      ylab = 'Number of Galumna', xlab = 'Water content of the substrate (g/L)')
+lines(pframe$pred, lwd = 2)
+lines(pframe$upr, col = 2, lty = 3, lwd = 2)
+lines(pframe$lwr, col = 2, lty = 3, lwd = 2)
+```
+]
+
+
+---
+## Other distributions
+
+- **Logit transformation of the data** often used with `lm(m)` for percentages or proportions when the binomial distribution is not appropriate. When not selections from fixed quantities (e.g. percent cover, school grades, etc).
+- **Log-normal distribution in glm**, avoids having to log-transform the data.
+- **Gamma distribution**. Similar to log-normal, more versatile.
+- **Tweedie distribution**. Versatile family of distributions. Useful for data with a mix of zeros and positive values (not necessarily counts).
+- **Zero-inflated Poisson or zero-inflated negative binomial**. When the data comprise an excess number of zeros, that arise from a different process than the process that generates the counts.
+
+---
 class: inverse, center, bottom
 
 # Thank you for attending this workshop!
