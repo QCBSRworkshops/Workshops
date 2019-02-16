@@ -44,6 +44,10 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [French](https://qcbsrworkshops.github.io/Workshops/workshop06/workshop06-fr/workshop06-fr.html)
 
+### Workshop 07 - Generalized linear mixed models
+
+#### [English](https://qcbsrworkshops.github.io/Workshops/workshop07/workshop07-en/workshop07-en.html)
+
 ### Workshop 08 - Generalized additive models
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop08/workshop08-en/workshop08-en.html)
