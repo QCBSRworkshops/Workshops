@@ -29,7 +29,7 @@ options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
 
 ```{r, include = FALSE}
-source(file="./Scripts_and_data/multiplot.R")
+source(file="data/multiplot.R")
 
 if(!require(ggplot2)) install.packages("ggplot2")
 if(!require(ggplot2)) library(ggplot2)
@@ -134,7 +134,7 @@ Code and .HTML available at http://qcbs.ca/wiki/r/workshop3
 Beautiful and flexible graphics!
 
 ```{r, echo=FALSE, fig.width=7}
-source(file="./Scripts_and_data/multiExamplePlot.R")
+source(file="data/multiExamplePlot.R")
 ```
 ---
 ## Introduction
@@ -334,7 +334,7 @@ ggsave("my1rstPlot.pdf",
 Different aesthetic are available to help you distinguish different class, group & structure within your data:
 
 ```{r echo=FALSE, fig.width=8}
-source(file="./Scripts_and_data/4plot_aesthetic.R")
+source(file="data/4plot_aesthetic.R")
 ```
 
 ---
@@ -712,7 +712,7 @@ barplot(counts, main="Car Distribution",
 ]]
 
 ---
-## Plot: linear reagression
+## Plot: linear regression
 
 ---
 ## Plot with categories

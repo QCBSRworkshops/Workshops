@@ -231,9 +231,38 @@ animaux <- c(Minou, Pitou, Filou)
 ---
 ## Exercice 1 - Solution ![:cube]()
 
+1- Utilisez une commande `if` pour afficher `“meow”` si `Minou` est un `“chat”`.
+```{r}
+if(Minou == 'chat') {
+  print("meow")
+}
+```
+
+2- Utilisez une commande `if`  `else` pour afficher `“woof”` si un objet a la valeur `“chien”`, et `“meow”` si non. Essayez ceci sur les objets `Pitou` et `Filou`.
+```{r}
+x = Minou
+# x = Pitou
+if(x == 'chat') {
+  print("meow")
+} else {
+  print("woof")
+}
+```
+
+---
+## Exercice 1 - Solution ![:cube]()
+
+3- Utilisez la fonction `ifelse` pour afficher `“woof”` pour les `animaux` qui sont des chiens et `“meow”` pour les `animaux` qui sont des chats.
+
 ```{r}
 animaux <- c(Minou, Pitou, Filou)
 
+ifelse(animaux == 'chien', "woof", "meow")
+```
+
+Ou
+
+```{r}
 for(val in 1:3) {
   if(animaux[val] == "chat") {
     print("meow")
