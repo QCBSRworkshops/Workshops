@@ -1,11 +1,14 @@
 
-#qcbsR*
+
 assets
 *.html
 *_files
 public/
 templateWorkshops-master/
 master.zip
+
+#qcbsR*
+!qcbsR-header.html
 
 # History files
 .Rhistory
