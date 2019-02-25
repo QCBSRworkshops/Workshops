@@ -23,7 +23,8 @@
 
 - name: "Workshop 07 - Generalized linear mixed models"
   link_en: "workshop07/workshop07-en/workshop07-en.html"
-  
+  link_fr: "workshop07/workshop07-fr/workshop07-fr.html"  
+
 - name: "Workshop 08 - Generalized additive models"
   link_en: "workshop08/workshop08-en/workshop08-en.html"
 

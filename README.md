@@ -48,6 +48,8 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop07/workshop07-en/workshop07-en.html)
 
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop07/workshop07-fr/workshop07-fr.html)
+
 ### Workshop 08 - Generalized additive models
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop08/workshop08-en/workshop08-en.html)
