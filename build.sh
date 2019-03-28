@@ -8,7 +8,7 @@ wget https://github.com/QCBSRworkshops/templateWorkshops/archive/master.zip
 unzip master
 
 
-for i in 8 9 10
+for i in 1 2 3 4 5 6 7 8 9 10
 do
   num=$(printf "%02d" $i)
   # files in folder
