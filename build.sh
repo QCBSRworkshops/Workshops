@@ -4,25 +4,19 @@ mkdir public
 cp README.md public
 
 # get template
-wget https://github.com/QCBSRworkshops/templateWorkshops/archive/master.zip
-unzip master
+wget https://github.com/QCBSRworkshops/templateWorkshops/archive/master.zip -O public/master.zip
+unzip public/master.zip -d public && rm -f public/master.zip
 
-
-for i in 1 2 3 4 5 6 7 8 9 10
+for i in $(seq 10)
 do
-  num=$(printf "%02d" $i)
-  # files in folder
-  wks=workshop$num
+  wks=workshop$(printf "%02d" $i)
+  mkdir -p public/$wks
   for dir in $wks/*
   do
     lang=${dir##*-}
-    mkdir -p public/$dir
-    cp -r templateWorkshops-master/assets templateWorkshops-master/qcbs* public/$dir
-    cp -r $dir/*.Rmd $dir/images $dir/*.csv $dir/data public/$dir
-    $dir/*.Rmd
-    # #cp: illegal option -- t...?
-    cd public/$dir && Rscript -e "rmarkdown::render('$wks-$lang.Rmd')" && cd ../../..
+    echo $wks
+    echo $dir
+    cp -r $dir/ public/$dir
+    cd public/$dir && Rscript --no-init-file -e "rmarkdown::render('$wks-$lang.Rmd')" && cd ../../..
   done
 done
-
-rm -rf master.zip templateWorkshops-master
