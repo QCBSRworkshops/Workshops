@@ -14,13 +14,13 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop01/workshop01-en/workshop01-en.html)
 
-#### [Français](https://qcbsrworkshops.github.io/Workshops/workshop01/workshop01-fr/workshop01-fr.html)
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop01/workshop01-fr/workshop01-fr.html)
 
 ### Workshop 02 - Loading and manipulating data
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop02/workshop02-en/workshop02-en.html)
 
-#### [Français](https://qcbsrworkshops.github.io/Workshops/workshop02/workshop02-fr/workshop02-fr.html)
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop02/workshop02-fr/workshop02-fr.html)
 
 ### Workshop 03 - Introduction to ggplot2
 
@@ -30,13 +30,13 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop04/workshop04-en/workshop04-en.html)
 
-#### [Français](https://qcbsrworkshops.github.io/Workshops/workshop04/workshop04-fr/workshop04-fr.html)
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop04/workshop04-fr/workshop04-fr.html)
 
 ### Workshop 05 - Programming in R
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop05/workshop05-en/workshop05-en.html)
 
-#### [Français](https://qcbsrworkshops.github.io/Workshops/workshop05/workshop05-fr/workshop05-fr.html)
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop05/workshop05-fr/workshop05-fr.html)
 
 ### Workshop 06 - Linear mixed models
 
@@ -54,11 +54,13 @@ Wiki](https://github.com/QCBSRworkshops/Workshops/wiki).
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop08/workshop08-en/workshop08-en.html)
 
-#### [Français](https://qcbsrworkshops.github.io/Workshops/workshop08/workshop08-fr/workshop08-fr.html)
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop08/workshop08-fr/workshop08-fr.html)
 
 ### Workshop 09 - Multivariate analyses
 
 #### [English](https://qcbsrworkshops.github.io/Workshops/workshop09/workshop09-en/workshop09-en.html)
+
+#### [French](https://qcbsrworkshops.github.io/Workshops/workshop09/workshop09-fr/workshop09-fr.html)
 
 ### Workshop 10 - Advanced multivariate analyses
 

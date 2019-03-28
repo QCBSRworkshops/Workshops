@@ -23,14 +23,16 @@
 
 - name: "Workshop 07 - Generalized linear mixed models"
   link_en: "workshop07/workshop07-en/workshop07-en.html"
-  link_fr: "workshop07/workshop07-fr/workshop07-fr.html"  
+  link_fr: "workshop07/workshop07-fr/workshop07-fr.html"
 
 - name: "Workshop 08 - Generalized additive models"
   link_en: "workshop08/workshop08-en/workshop08-en.html"
+  link_fr: "workshop08/workshop08-fr/workshop08-fr.html"
 
 
 - name: "Workshop 09 - Multivariate analyses"
   link_en: "workshop09/workshop09-en/workshop09-en.html"
+  link_fr: "workshop09/workshop09-fr/workshop09-fr.html"
 
 - name: "Workshop 10 - Advanced multivariate analyses"
   link_en: "workshop10/workshop10-en/workshop10-en.html"
