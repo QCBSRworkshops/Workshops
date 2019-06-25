@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Workshop 3: Introduction to ggplot2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Québec Centre for Biodiversity Science" />
+    <link href="assets/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/academicons-1.8.1/css/academicons.min.css">
+    <link rel="stylesheet" href="qcbsR.css" type="text/css" />
+    <link rel="stylesheet" href="qcbsR-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Workshop 3: Introduction to ggplot2
+## QCBS R Workshop Series
+### Québec Centre for Biodiversity Science
+
+---
+
+
+
+
+
+
+
+
+## Introduction
+
+- To follow along:
+
+Code and .HTML available at http://qcbs.ca/wiki/r/workshop3
+
+- Recommendation:
+      * create your own new script
+      * refer to provided code only if needed
+      * avoid copy pasting or running the code directly from script
+
+- ggplot2 is also hosted on Github: https://github.com/hadley/ggplot2
+
+---
+## Outline
+1. Introduction
+2. ggplot mechanics
+3. Importance of data structure
+4. Basic plot
+5. Aesthetic
+6. Geom
+  * point, line, Histogram, box plot
+  * Error bar, sgnificant value &amp; linear regression
+7. Fine tunning
+  * Color
+  * Theme
+8. Miscellaneous
+
+---
+## Introduction : Why use R for plotting?
+&lt;div style="text-align:center"&gt;
+&lt;img src="images/Divided_reproducible workflow.png" height=85% width=85%&gt;
+&lt;/div&gt;
+
+---
+## Introduction : Why use R for plotting?
+&lt;div style="text-align:center"&gt;
+&lt;img src="images/Divided_reproducible workflow2.png" height=85% width=85%&gt;
+&lt;/div&gt;
+
+---
+## Introduction : Why use R for plotting?
+Beautiful and flexible graphics!
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-3-1.png" width="504" style="display: block; margin: auto;" /&gt;
+---
+## Introduction
+
+- Have you created plots?
+      * What kind of plot?
+      * Which software?
+
+- Have you plotted in R?
+      * `base` R, `lattice`?
+      * `ggplot2`?
+
+---
+class: inverse, center, middle
+
+# ggplot2
+
+---
+## ggplot2
+
+The `ggplot2` package lets you make beautiful and customizable plots of your data. It implements the grammar of graphics, an easy to use system for building plots.
+
+&lt;div style="text-align:center"&gt;
+&lt;img src="images/ggplot2_logo.png" height=40% width=40%&gt;
+&lt;/div&gt;
+
+---
+## Introduction
+
+Required packages
+
+```r
+install.packages("ggplot2")
+library(ggplot2)
+```
+
+---
+## Grammar of Graphics (GG)
+
+A graphic is made of different layers:
+  * aesthetics (`aes`)
+  * transformation
+  * geometries (`geoms`)
+  * axis (coordinate system)
+  * scales
+
+&lt;img src="images/Layers_ggplot.png" height=100% width=100%&gt;
+
+---
+
+```r
+ggplot(data = iris,             # Data
+       aes(x = Sepal.Length,    # Your X-value
+           y = Sepal.Width,     # Your Y-value
+           col = Species)) +    # Aesthetics
+  geom_point() +                # Geometry
+  geom_smooth(method = "lm") +  # Linear regression
+  ggtitle("My fabulous graph")+ # Title
+  theme(plot.title= element_text(color="red",         #|
+                                 size=14,             #| Theme
+                                 face="bold.italic")) #|
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-5-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+## Importance in data structure
+
+
+```r
+head(iris[,c("Sepal.Length","Sepal.Width","Species")], n = 5)
+#   Sepal.Length Sepal.Width Species
+# 1          5.1         3.5  setosa
+# 2          4.9         3.0  setosa
+# 3          4.7         3.2  setosa
+# 4          4.6         3.1  setosa
+# 5          5.0         3.6  setosa
+```
+
+`ggplot(data = iris, aes(`**x = Sepal.Length**`,` **y = Sepal.Width**`, `**col = Species**`))`
+
+---
+## A simple Example with iris database
+
+.small[
+
+.pull-left[
+
+**Inheritance from ggplot**
+
+```r
+ggplot(data = iris,             # Data
+      aes(x = Sepal.Length,    # Your X-value
+          y = Sepal.Width)) +  # Your Y-value
+ geom_point()                  # Geometry
+
+```
+
+**Storing ggplot in object**
+
+```r
+
+p &lt;- ggplot(data = iris,
+                   aes(x = Sepal.Length,
+                       y = Sepal.Width))
+q &lt;- p + geom_point()
+q   # Print your final plot
+
+```
+]
+
+.pull-right[
+
+**No inheritance from ggplot**
+
+```r
+ggplot() +
+ geom_point(data = iris,
+            aes(x = Sepal.Length,
+                y = Sepal.Width))
+```
+
+**Adding layer from ggplot object**
+
+```r
+s &lt;- ggplot()
+s &lt;- s +
+ geom_point(data = iris,
+            aes(x = Sepal.Length,
+                y = Sepal.Width))
+s
+```
+]
+
+]
+
+---
+## GGplot dynamics: base layer
+
+
+```r
+ggplot() +
+scale_x_continuous() +
+scale_y_continuous()
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-11-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+## GGplot dynamics: Data layer
+
+
+```r
+ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  xlab("x = Sepal Lenght") +
+  ylab("y = Sepal Width")
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-12-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+## GGplot dynamics: Gemoetric Layer
+
+
+```r
+ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  xlab("x = Sepal Lenght") + ylab("y = Sepal Width") +
+  geom_point()
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-13-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+## Challenge #1 ![:cube]()
+
+  * Draw your 1rst (gg)plot:
+
+
+ data | geom | x value | y value
+:-------------:|:-------------:|:-------------:|:-------------:
+iris|geom_point|Petal length|Petal width
+
+---
+## Solution Challenge 1# ![:cube]()
+
+
+```r
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width)) +
+  geom_point()
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-14-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+## Saving plots in RStudio
+
+&lt;div style="text-align:center"&gt;
+&lt;img src="images/save_image.png" height=80% width=80%&gt;
+&lt;/div&gt;
+
+---
+## Saving plots in code
+
+`ggsave()` will write directly to your working directory all in one line of code and you can specify the name of the file and the dimensions of the plot:
+
+.small[
+
+```r
+my1rstPlot &lt;- ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width)) + geom_point()
+ggsave("my1rstPlot.pdf",
+       my1rstPlot,
+       height = 8.5,
+       width = 11,
+       units = "in")
+```
+]
+
+.comment[Note that vector format (e.g., pdf, svg) are often preferable choice compared to raster format (jpeg, png, ...)]
+
+.comment[Other methods to save image `?pdf` `?jpeg`]
+
+---
+## Aesthetic
+
+Different aesthetic are available to help you distinguish different class, group &amp; structure within your data:
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+---
+## Example of aesthetic: color
+
+.small[
+.pull-left[
+
+```r
+#Without Color
+ggplot(data = iris, aes(x = Sepal.Length,
+                        y = Sepal.Width)) +
+  geom_point()
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+```r
+ggplot(data = iris, aes(x = Sepal.Length,
+                        y = Sepal.Width,
+                        color = Species)) +
+geom_point() + theme(legend.position = 'bottom')
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+## Challenge #2 ![:cube]()
+
+Produce a colourful plot from built in data such as the `Iris`, `CO2` or the `msleep` dataset
+
+&lt;br&gt;
+
+Data|x value|y value| Aesthetic
+:-------------:|:-------------:|:-------------:|:-------------:
+iris|Petal.Length|Petal.Width|Species
+CO2|conc|uptake|Treatment &amp; Type
+msleep|log10(bodywt)|awake| vore &amp; conservation
+
+---
+## Solution to challenge #2 ![:cube]()
+
+Example using `iris` database
+
+
+```r
+data(iris)
+iris.plot &lt;- ggplot(data = iris,
+  aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  geom_point()
+iris.plot
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+## Solution to challenge #2 ![:cube]()
+
+Example using `CO2` database
+
+
+```r
+data(CO2)
+CO2.plot &lt;- ggplot(data = CO2,
+    aes(x = conc, y = uptake, colour = Treatment)) +
+    geom_point()
+CO2.plot
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-20-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Solution to challenge #2 ![:cube]()
+
+Example using `msleep` database
+
+
+```r
+data(msleep)
+msleep.plot &lt;- ggplot(data = msleep,
+    aes(x = log10(bodywt), y = awake, colour = vore, shape= conservation)) +
+    geom_point()
+msleep.plot
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+## Facet: `Iris`
+
+
+```r
+ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width,
+                        color = Species)) +
+  geom_point() +
+  facet_grid(~Species, scales = "free")
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-22-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+---
+## Facet: `CO2`
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-23-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+---
+## Fine tuning - colours
+
+Colour: Manual_colour
+
+.small[
+
+```r
+iris.plot &lt;- ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+            geom_point()
+iris.plot + scale_colour_manual(values = c("setosa" = "red",
+                                           "versicolor" = "darkgreen",
+                                           "virginica"="blue"))
+```
+]
+.pull-left[
+**Classic**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-25-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+**Manual**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-26-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Fine tuning - gradient colours for quantitative variable
+
+*quantitavie variable: `Petal.Length`*
+
+
+```r
+iris.plot.petal &lt;- ggplot(data=iris, aes(..., color = Petal.Length))
+```
+
+.pull-left[
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-28-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-29-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Fine tuning - colours
+
+Coulours theme
+
+
+```r
+install.packages("RColorBrewer")
+require(RColorBrewer)
+```
+
+&lt;div style="text-align:center"&gt;
+&lt;img src="images/Rcolour Brewers palette prez.png" height=100% width=100%&gt;
+&lt;/div&gt;
+
+---
+## Fine tuning - colours
+
+Coulours theme: RColorBrewer
+
+```r
+iris.plot + scale_color_brewer(palette = "Dark2")
+```
+
+.pull-left[
+**Classic**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-32-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+**Dark2**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-33-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Fine tuning - colours
+
+Blind color friendly: presentation purpose
+
+
+```r
+cbbPalette &lt;- c("#000000", "#E69F00", "#56B4E9", "#009E73",
+                "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+iris.plot + scale_color_manual(values=cbbPalette)
+```
+
+.pull-left[
+**Classic**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-35-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+**Blind color friendly**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-36-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Fine tuning - colours
+
+black &amp; white: grey scale for publication purpose
+
+
+```r
+iris.plot + scale_color_grey()
+```
+
+.pull-left[
+**Defaut**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-38-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+**Grey scale**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-39-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+---
+## Fine tuning - theme
+
+Theme: classic for publication purpose
+
+
+```r
+iris.plot + scale_color_grey() + theme_classic()
+```
+
+.pull-left[
+**Defaut**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-41-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+**Classic**
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-42-1.png" width="432" style="display: block; margin: auto;" /&gt;
+]
+
+
+
+---
+## Challenge #3 ![:cube]()
+
+Explore a new `geom()` and other plot elements with your own data or built in data
+
+```r
+data(msleep)
+data(OrchardSprays)
+```
+
+---
+## Solution challenge #3 ![:cube]()
+
+
+```r
+box.plot &lt;- ggplot(data = OrchardSprays,
+                  aes(x = treatment, y = decrease)) +
+                  geom_boxplot()
+box.plot
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-44-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+## Geom: GGplot
+
+&lt;div style="text-align:center"&gt;
+&lt;img src="images/plots_in_various_contexts.png" height=85% width=85%&gt;
+&lt;/div&gt;
+
+---
+## Base plot
+
+&lt;div style="text-align:center"&gt;
+&lt;img src="images/plots_in_various_contexts_baseplot.png" height=85% width=85%&gt;
+&lt;/div&gt;
+
+---
+## Blank plot
+
+.small[
+.pull-left[
+*GGplot2*
+
+```r
+ggplot(mtcars, aes(wt, mpg)) +
+       geom_blank()
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-45-1.png" width="360" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+*Base Plot*
+
+```r
+plot(mpg~wt, data = mtcars, type = "n")
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-46-1.png" width="360" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+## Histogram
+
+.small[
+.pull-left[
+*GGplot2*
+
+```r
+qplot(rnorm(100)) +
+      geom_histogram()
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-47-1.png" width="360" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+*Base Plot*
+
+```r
+hist(rnorm(100))
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-48-1.png" width="360" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+## Barplot: value significance
+
+.small[
+.pull-left[
+*GGplot2*
+
+```r
+qplot(rnorm(100)) +
+      geom_histogram()
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-49-1.png" width="360" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+*Base Plot*
+
+```r
+counts &lt;- table(mtcars$gear)
+barplot(counts, main="Car Distribution",
+  	    xlab="Number of Gears", border=NA)
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-50-1.png" width="360" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+## Plot: linear regression
+
+---
+## Plot with categories
+
+---
+## Boxplot with significant value only
+
+---
+## Violoin Plot
+
+---
+## Plot with errors bars
+
+---
+## Map
+
+---
+## Density Graph
+
+---
+## Dendogram
+
+---
+## Ordination: PCA
+
+---
+## Geom_point &amp; Geom_line
+
+.alert[put ggplot vs base plot]
+
+
+```r
+CO2.plot.facet.baline &lt;- CO2.plot.facet + geom_line()
+CO2.plot.facet.line &lt;- CO2.plot.facet + geom_line(aes(group=Plant))
+multiplot(CO2.plot.facet.baline, CO2.plot.facet.line)
+```
+
+&lt;img src="workshop03-en_files/figure-html/unnamed-chunk-51-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Miscellaneous
+
+---
+## Miscellaneous
+  * .alert[Put other Crazy R visualisation]
+  * .alert[A time for a tour on r-graph-gallery.com]
+  * .alert[Itroduce Dynamics representative]
+  * .alert[May be let the choice to the current speaker to show its own tricks and/or own data visu]
+
+---
+# Miscellaneous : `qplot()` vs `ggplot()`
+
+
+```r
+qplot(data = iris,
+      x = Sepal.Length,
+      xlab = "Sepal Length (mm)",
+      y = Sepal.Width,
+      ylab = "Sepal Width (mm)",
+      main = "Sepal dimensions")
+
+ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point() +
+  xlab("Sepal Length (mm)") +
+  ylab("Sepal Width (mm)") +
+  ggtitle("Sepal dimensions")
+```
+---
+## Available elements
+
+[Data Visualization with ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+
+&lt;div style="text-align:center"&gt;
+&lt;img src="images/available_geom.png" height=50% width=50%&gt;
+&lt;/div&gt;
+
+---
+## Additional resources
+
+`help(package = ggplot)`
+
+http://ggplot2.tidyverse.org/reference/
+
+&lt;div&gt;
+  &lt;img src="images/ggplot_book.jpg"/&gt;
+  &lt;img src="images/grammar_of_graphics.jpg"/&gt;
+&lt;/div&gt;
+
+---
+class: inverse, center, bottom
+
+# Merci d'avoir participé!
+
+![:scale 50%](images/QCBS_logo.png)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="qcbsR-macros.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

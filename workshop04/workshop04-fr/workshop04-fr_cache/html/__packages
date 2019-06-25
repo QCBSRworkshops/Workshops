@@ -1,0 +1,10 @@
+base
+dplyr
+kableExtra
+permute
+lattice
+vegan
+e1071
+MASS
+carData
+car
